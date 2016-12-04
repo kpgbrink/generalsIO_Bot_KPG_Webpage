@@ -31,56 +31,57 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/api/comments', function(req, res) {
-    db.collection("comments").find({}).toArray(function(err, docs) {
+app.get('/api/media', function(req, res) {
+    db.collection("media").find({}).toArray(function(err, docs) {
         if (err) throw err;
         res.json(docs);
     });
 });
 
-app.post('/api/comments', function(req, res) {
+app.post('/api/media', function(req, res) {
     var newComment = {
         id: Date.now(),
         author: req.body.author,
+        author: req.body.author,
         text: req.body.text,
     };
-    db.collection("comments").insertOne(newComment, function(err, result) {
+    db.collection("media").insertOne(newComment, function(err, result) {
         if (err) throw err;
-        db.collection("comments").find({}).toArray(function(err, docs) {
+        db.collection("media").find({}).toArray(function(err, docs) {
             if (err) throw err;
             res.json(docs);
         });
     });
 });
 
-app.get('/api/comments/:id', function(req, res) {
-    db.collection("comments").find({"id": Number(req.params.id)}).toArray(function(err, docs) {
+app.get('/api/media/:id', function(req, res) {
+    db.collection("media").find({"id": Number(req.params.id)}).toArray(function(err, docs) {
         if (err) throw err;
         res.json(docs);
     });
 });
 
-app.put('/api/comments/:id', function(req, res) {
+app.put('/api/media/:id', function(req, res) {
     var updateId = Number(req.params.id);
     var update = req.body;
-    db.collection('comments').updateOne(
+    db.collection('media').updateOne(
         { id: updateId },
         { $set: update },
         function(err, result) {
             if (err) throw err;
-            db.collection("comments").find({}).toArray(function(err, docs) {
+            db.collection("media").find({}).toArray(function(err, docs) {
                 if (err) throw err;
                 res.json(docs);
             });
         });
 });
 
-app.delete('/api/comments/:id', function(req, res) {
-    db.collection("comments").deleteOne(
+app.delete('/api/media/:id', function(req, res) {
+    db.collection("media").deleteOne(
         {'id': Number(req.params.id)},
         function(err, result) {
             if (err) throw err;
-            db.collection("comments").find({}).toArray(function(err, docs) {
+            db.collection("media").find({}).toArray(function(err, docs) {
                 if (err) throw err;
                 res.json(docs);
             });
@@ -94,7 +95,7 @@ app.use('*', express.static(APP_PATH));
 
 // process.env.MONGO_PASSWORD
 // This assumes that the MongoDB password has been set as an environment variable.
-var mongoURL = 'mongodb://cs336:'+process.env.MONGODB_PASSWORD+'@ds151697.mlab.com:51697/cs336';
+var mongoURL = 'mongodb://cs336:'+'bjarne'+'@ds119738.mlab.com:19738/media_react';
 MongoClient.connect(mongoURL, function(err, dbConnection) {
     if (err) throw err;
     db = dbConnection;
