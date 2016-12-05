@@ -25,7 +25,7 @@ export default class extends React.Component{
     }
     render() {
         return (
-            <form className="commentForm" onSubmit={this.handleSubmit}>
+            <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
                 <input className="ui-widget ui-corner-all" type="text" placeholder="name..."
                     value={this.state.author} onChange={this.handleAuthorChange.bind(this)}
                 />

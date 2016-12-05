@@ -4,8 +4,8 @@ import Comment from './Comment.js';
 
 
 export default class extends React.Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
     }
   render() {

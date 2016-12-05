@@ -4,6 +4,7 @@ import ProfileImage from "./UserComponents/ProfileImage";
 import SignIn from "./UserComponents/SignIn";
 import SignOut from "./UserComponents/SignOut";
 
+// Todo. Make this point to a real image.
 const defaultProfileUrl = "images/profile/defaultProfilePic.png";
 const defaultFullName = "Full Name";
 

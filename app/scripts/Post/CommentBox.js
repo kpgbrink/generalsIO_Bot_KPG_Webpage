@@ -49,7 +49,8 @@ export default class extends React.Component {
     }
     componentDidMount() {
         this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, POLL_INTERVAL);
+        // No more interval
+        //setInterval(this.loadCommentsFromServer, POLL_INTERVAL);
     }
     componentWillUnmount() {
         this.allowAjaxResponse = false;
