@@ -34,8 +34,8 @@
   },
   "scripts": {
     "build": "webpack --progress",
-    "dev": "kill $(pgrep node) ; nodemon --ignore app/ server.js & webpack-dev-server --progress --history-api-fallback&",
-    "stop": "kill $(pgrep node)",
+    "dev": "killall node || TASKKILL /IM node.exe & node run-dev.js",
+    "stop": "killall node || TASKKILL /IM node.exe",
     "install": "webpack --progress --config ./webpack.production.config.js",
     "start": "node server.js"
   },

@@ -3,8 +3,12 @@ import $ from 'jquery';
 import Comment from './Comment.js';
 
 
-export default React.createClass({
-  render: function() {
+export default class extends React.Component{
+    constructor() {
+        super();
+        this.state = {};
+    }
+  render() {
     var commentNodes = this.props.data.map(function(comment) {
       return (
         <Comment id={comment.id} author={comment.author} key={comment.id}>
@@ -18,4 +22,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+};

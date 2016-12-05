@@ -3,26 +3,32 @@ import $ from 'jquery';
 
 import CommentList from './CommentList.js';
 import CommentForm from './CommentForm.js';
-import {API_URL, POLL_INTERVAL} from './global.js';
+import {API_URL, POLL_INTERVAL} from '../global.js';
 
-export default React.createClass({
-    getInitialState: function() {
-        return {data: []};
-    },
-    loadCommentsFromServer: function() {
+export default class extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+        this.allowAjaxResponse = true;
+    }
+    loadCommentsFromServer() {
         $.ajax({
             url: API_URL,
             dataType: 'json',
             cache: false,
         })
          .done(function(result){
-             this.setState({data: result});
+             if (this.allowAjaxResponse) {
+                this.setState({data: result});
+             }
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
-    },
-    handleCommentSubmit: function(comment) {
+    }
+    handleCommentSubmit(comment) {
         var comments = this.state.data;
         comment.id = Date.now();
         var newComments = comments.concat([comment]);
@@ -40,18 +46,21 @@ export default React.createClass({
              this.setState({data: comments});
              console.error(API_URL, status, errorThrown.toString());
          }.bind(this));
-    },
-    componentDidMount: function() {
+    }
+    componentDidMount() {
         this.loadCommentsFromServer();
         setInterval(this.loadCommentsFromServer, POLL_INTERVAL);
-    },
-    render: function() {
+    }
+    componentWillUnmount() {
+        this.allowAjaxResponse = false;
+    }
+    render() {
         return (
             <div className="commentBox">
                 <h1>Comments</h1>
                 <CommentList data={this.state.data} />
-                <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+                <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
             </div>
         );
     }
-});
+};
