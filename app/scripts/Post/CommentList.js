@@ -11,7 +11,7 @@ export default class extends React.Component{
   render() {
     var commentNodes = this.props.data.map(function(comment) {
       return (
-        <Comment id={comment.id} author={comment.author} key={comment.id}>
+        <Comment id={String(comment._id)} author={comment.author} key={comment._id}>
           {comment.text}
         </Comment>
       );
