@@ -76,7 +76,7 @@ export default class extends React.Component {
         return (
             <div>
                 <form className="commentForm">
-                    <h1>Comment Edit - {this.state.id}</h1>
+                    <h1>Comment Edit - {this.props.params.id}</h1>
                     <input
                         type="text"
                         value={this.state.author}

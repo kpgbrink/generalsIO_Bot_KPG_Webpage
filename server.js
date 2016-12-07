@@ -9,6 +9,8 @@ const app = express();
 
 const APP_PATH = path.join(__dirname, 'dist');
 
+var collections;
+
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(APP_PATH));
@@ -21,81 +23,67 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/api/media', function(req, res) {
-    db.postCollection.then((postCollection) => {
-        postCollection.find({}).toArray(function(err, docs) {
+app.get('/api/posts', function(req, res) {
+    getPostCollection(res);
+});
+
+app.post('/api/posts', function(req, res) {
+    var newPost = {
+        date: new Date(),
+        author: req.body.author,
+        author: req.body.author,
+        text: req.body.text,
+    };
+    collections.post.insertOne(newPost, function(err, result) {
+        if (err) throw err;
+        getPostCollection(res);
+    });
+});
+
+app.get('/api/posts/:id', function(req, res) {
+    collections.post.find({"_id":  ObjectId(req.params.id)}).toArray(function(err, docs) {
+        if (err) throw err;
+        res.json(docs);
+    });
+});
+
+app.put('/api/posts/:id', function(req, res) {
+    var updateId = ObjectId(req.params.id);
+    var update = req.body;
+    collections.post.updateOne(
+        { _id: updateId },
+        { $set: update },
+        function(err, result) {
             if (err) throw err;
-            res.json(docs);
+            getPostCollection(res);
         });
-    });
 });
 
-app.post('/api/media', function(req, res) {
-    db.postCollection.then((postCollection) => {
-        var newComment = {
-            date: new Date(),
-            author: req.body.author,
-            author: req.body.author,
-            text: req.body.text,
-        };
-        postCollection.insertOne(newComment, function(err, result) {
+app.delete('/api/posts/:id', function(req, res) {
+    collections.post.deleteOne(
+        {'_id': ObjectId(req.params.id)},
+        function(err, result) {
             if (err) throw err;
-            postCollection.find({}).toArray(function(err, docs) {
-                if (err) throw err;
-                res.json(docs);
-            });
+            getPostCollection(res);
         });
-    });
-});
-
-app.get('/api/media/:id', function(req, res) {
-    db.postCollection.then((postCollection) => {
-        postCollection.find({"_id":  ObjectId(req.params.id)}).toArray(function(err, docs) {
-            if (err) throw err;
-            res.json(docs);
-        });
-    });
-});
-
-app.put('/api/media/:id', function(req, res) {
-    db.postCollection.then((postCollection) => {
-        var updateId = Number(req.params.id);
-        var update = req.body;
-        postCollection.updateOne(
-            { id: updateId },
-            { $set: update },
-            function(err, result) {
-                if (err) throw err;
-                postCollection.find({}).toArray(function(err, docs) {
-                    if (err) throw err;
-                    res.json(docs);
-                });
-            });
-        });
-});
-
-app.delete('/api/media/:id', function(req, res) {
-    db.postCollection.then((postCollection) => {
-        postCollection.deleteOne(
-            {'id': Number(req.params.id)},
-            function(err, result) {
-                if (err) throw err;
-                postCollection.find({}).toArray(function(err, docs) {
-                    if (err) throw err;
-                    res.json(docs);
-                });
-            });
-    });
 });
 
 // Send all routes/methods not specified above to the app root.
 app.use('*', express.static(APP_PATH));
 
-
-app.listen(app.get('port'), function() {
-    console.log('Server started: http://localhost:' + app.get('port') + '/');
+db.collections.then((myCollections) => {
+    collections = myCollections;
+    app.listen(app.get('port'), function() {
+        console.log('Server started: http://localhost:' + app.get('port') + '/');
+    });
 });
 
 
+var getPostCollection = function (res) {
+    collections.post.find({}, {sort: { date : -1 }}).toArray(function(err, docs) {
+        if (err) throw err;
+        res.json(docs);
+    });
+}
 
 

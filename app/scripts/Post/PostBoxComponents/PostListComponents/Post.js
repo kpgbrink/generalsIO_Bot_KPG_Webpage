@@ -14,8 +14,8 @@ export default class extends React.Component{
     }
     render() {
         return (
-            <div className="comment">
-                <h2 className="commentAuthor" >
+            <div className="post">
+                <h2 className="postTitle" >
                     {this.props.author}
                 </h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />

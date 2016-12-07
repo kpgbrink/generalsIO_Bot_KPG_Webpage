@@ -1,19 +1,20 @@
 import React from 'react';
 import $ from 'jquery';
 
-import CommentList from './CommentList.js';
-import CommentForm from './CommentForm.js';
+import PostList from './PostBoxComponents/PostList.js';
+import PostForm from './PostBoxComponents/PostForm.js';
 import {API_URL, POLL_INTERVAL} from '../global.js';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            pendingId: 0
         };
         this.allowAjaxResponse = true;
     }
-    loadCommentsFromServer() {
+    loadPostsFromServer() {
         $.ajax({
             url: API_URL,
             dataType: 'json',
@@ -30,9 +31,9 @@ export default class extends React.Component {
     }
     handleCommentSubmit(comment) {
         var comments = this.state.data;
-        comment.id = Date.now();
+        comment._id = `prefixId-${this.state.pendingId}`;
         var newComments = comments.concat([comment]);
-        this.setState({data: newComments});
+        this.setState({data: newComments, pendingId: this.state.pendingId+1});
         $.ajax({
             url: API_URL,
             dataType: 'json',
@@ -48,7 +49,7 @@ export default class extends React.Component {
          }.bind(this));
     }
     componentDidMount() {
-        this.loadCommentsFromServer();
+        this.loadPostsFromServer();
         // No more interval
         //setInterval(this.loadCommentsFromServer, POLL_INTERVAL);
     }
@@ -58,9 +59,9 @@ export default class extends React.Component {
     render() {
         return (
             <div className="commentBox">
-                <h1>Comments</h1>
-                <CommentList data={this.state.data} />
-                <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
+                <h1>Posts</h1>
+                <PostForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
+                <PostList data={this.state.data} />
             </div>
         );
     }
