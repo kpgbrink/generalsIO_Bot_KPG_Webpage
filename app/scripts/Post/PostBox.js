@@ -29,22 +29,22 @@ export default class extends React.Component {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
-    handleCommentSubmit(comment) {
-        var comments = this.state.data;
-        comment._id = `prefixId-${this.state.pendingId}`;
-        var newComments = comments.concat([comment]);
-        this.setState({data: newComments, pendingId: this.state.pendingId+1});
+    handlePostSubmit(post) {
+        var posts = this.state.data;
+        post._id = `prefixId-${this.state.pendingId}`;
+        var newPosts = [post].concat(posts);
+        this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
             url: API_URL,
             dataType: 'json',
             type: 'POST',
-            data: comment,
+            data: post,
         })
          .done(function(result){
              this.setState({data: result});
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
-             this.setState({data: comments});
+             this.setState({data: posts});
              console.error(API_URL, status, errorThrown.toString());
          }.bind(this));
     }
@@ -58,9 +58,9 @@ export default class extends React.Component {
     }
     render() {
         return (
-            <div className="commentBox">
+            <div className="postBox">
                 <h1>Posts</h1>
-                <PostForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
+                <PostForm onPostSubmit={this.handlePostSubmit.bind(this)} />
                 <PostList data={this.state.data} />
             </div>
         );

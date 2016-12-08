@@ -8,7 +8,7 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            author: '', text: ''
+            title: '', text: ''
         };
         this.allowAjaxResponse = true;
     }
@@ -24,14 +24,14 @@ export default class extends React.Component {
         }
     }
     loadData() {
-        $.ajax(API_URL + "/" + this.props.params.id) .done(function(comments) {
+        $.ajax(API_URL + "/" + this.props.params.id) .done(function(posts) {
             if (this.allowAjaxResponse) {
-                this.setState(comments[0]);
+                this.setState(posts[0]);
             }
         }.bind(this));
     }
     handleAuthorChange(e) {
-        this.setState({author: e.target.value});
+        this.setState({title: e.target.value});
     }
     handleTextChange(e) {
         this.setState({text: e.target.value});
@@ -42,8 +42,8 @@ export default class extends React.Component {
         };
     }
     handleUpdate() {
-        var updatedComment = {
-            author: this.state.author.trim(),
+        var updatedPost = {
+            title: this.state.title.trim(),
             text: this.state.text.trim()
         }
         $.ajax({
@@ -51,9 +51,9 @@ export default class extends React.Component {
             dataType: 'json',
             type: 'PUT',
             contentType:'application/json',
-            data: JSON.stringify(updatedComment)
+            data: JSON.stringify(updatedPost)
         })
-         .done(function(comments){
+         .done(function(posts){
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
@@ -65,7 +65,7 @@ export default class extends React.Component {
             url: API_URL + "/" + this.props.params.id,
             type: 'DELETE',
         })
-         .done(function(comments){
+         .done(function(posts){
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
@@ -75,11 +75,11 @@ export default class extends React.Component {
     render() {
         return (
             <div>
-                <form className="commentForm">
-                    <h1>Comment Edit - {this.props.params.id}</h1>
+                <form className="postForm">
+                    <h1>Post Edit - {this.props.params.id}</h1>
                     <input
                         type="text"
-                        value={this.state.author}
+                        value={this.state.title}
                         onChange={this.handleAuthorChange.bind(this)}
                     />
                     <input

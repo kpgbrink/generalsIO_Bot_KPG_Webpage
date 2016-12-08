@@ -30,8 +30,7 @@ app.get('/api/posts', function(req, res) {
 app.post('/api/posts', function(req, res) {
     var newPost = {
         date: new Date(),
-        author: req.body.author,
-        author: req.body.author,
+        title: req.body.title,
         text: req.body.text,
     };
     collections.post.insertOne(newPost, function(err, result) {

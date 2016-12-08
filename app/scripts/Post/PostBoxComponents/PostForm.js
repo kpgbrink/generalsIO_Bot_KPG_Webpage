@@ -4,32 +4,32 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            author: '', text: ''
+            title: '', text: ''
         }
     }
     handleAuthorChange(e) {
-        this.setState({author: e.target.value});
+        this.setState({title: e.target.value});
     }
     handleTextChange(e) {
         this.setState({text: e.target.value});
     }
     handleSubmit(e) {
         e.preventDefault();
-        var author = this.state.author.trim();
+        var title = this.state.title.trim();
         var text = this.state.text.trim();
-        if (!text || !author) {
+        if (!text || !title) {
             return;
         }
-        this.props.onCommentSubmit({author: author, text: text});
-        this.setState({author: '', text: ''});
+        this.props.onPostSubmit({title: title, text: text});
+        this.setState({title: '', text: ''});
     }
     render() {
         return (
-            <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="postForm" onSubmit={this.handleSubmit.bind(this)}>
                 <input className="ui-widget ui-corner-all" type="text" placeholder="name..."
-                    value={this.state.author} onChange={this.handleAuthorChange.bind(this)}
+                    value={this.state.title} onChange={this.handleAuthorChange.bind(this)}
                 />
-                <input className="ui-widget ui-corner-all" type="text" placeholder="comment..."
+                <input className="ui-widget ui-corner-all" type="text" placeholder="post..."
                     value={this.state.text} onChange={this.handleTextChange.bind(this)}
                 />
                 <input className="ui-button ui-widget ui-corner-all" type="submit" value="Post" />

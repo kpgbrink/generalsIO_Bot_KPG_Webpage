@@ -16,7 +16,7 @@ export default class extends React.Component{
         return (
             <div className="post">
                 <h2 className="postTitle" >
-                    {this.props.author}
+                    {this.props.title}
                 </h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
 		<Link to={'/Post/' + this.props.id}>Edit</Link>
