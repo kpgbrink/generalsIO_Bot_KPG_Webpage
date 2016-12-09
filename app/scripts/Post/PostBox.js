@@ -17,8 +17,7 @@ export default class extends React.Component {
     loadPostsFromServer() {
         $.ajax({
             url: API_URL,
-            dataType: 'json',
-            cache: false,
+            dataType: 'json'
         })
          .done(function(result){
              if (this.allowAjaxResponse) {

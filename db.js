@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 var MongoClient = require('mongodb').MongoClient
 
@@ -32,7 +32,12 @@ var userCollection = dbPromise.then((db) => {
 });
 
 const collections = {};
-module.exports.collections = Promise.all([
-    postCollection.then((postCollection) => collections.post = postCollection),
-    userCollection.then((userCollection) => collections.user = userCollection)
-    ]).then(() => collections);
+var db;
+module.exports = Promise.all([
+        postCollection.then((postCollection) => collections.post = postCollection),
+        userCollection.then((userCollection) => collections.user = userCollection),
+        dbPromise.then((_db) => db = _db),
+    ]).then(() => ({
+        collections: collections,
+        sessionStore: new (require('connect-mongo')(require('express-session')))({db: db}),
+}));
