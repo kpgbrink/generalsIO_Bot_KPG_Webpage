@@ -11,7 +11,7 @@ export default class extends React.Component{
         this.setState({title: e.target.value});
     }
     handleTextChange(e) {
-        this.setState({text: e.target.value});
+        this.setState({author: e.target.value});
     }
     handleYearChange(e) {
         this.setState({year: e.target.value});
@@ -19,12 +19,12 @@ export default class extends React.Component{
     handleSubmit(e) {
         e.preventDefault();
         var title = this.state.title.trim();
-        var text = this.state.text.trim();
-        var year = this.state.text.trim();
-        if (!text || !title) {
+        var author = this.state.author.trim();
+        var year = this.state.year.trim();
+        if (!author || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, text: text});
+        this.props.onPostSubmit({title: title, author: author, year: year});
         this.setState({title: '', text: '', year: ''});
     }
     render() {
