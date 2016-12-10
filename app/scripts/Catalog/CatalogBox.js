@@ -10,9 +10,9 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [
-      { title: 'title1', dataIndex: 'a', key: 'a', width: 100 },
-      { id: '123', title: 'title2', dataIndex: 'b', key: 'b', width: 100 },
-      { title: 'title3', dataIndex: 'c', key: 'c', width: 200 },
+      { title: 'Title', dataIndex: 'a', key: 'a', width: 100 },
+      { title: 'Author', dataIndex: 'b', key: 'b', width: 100 },
+      { title: 'Year', dataIndex: 'c', key: 'c', width: 100 },
       {
         title: 'Operations', dataIndex: '', key: 'd', render: (text, record) =>
         <a onClick={e => this.onDelete(record.key, e)} href="#">Delete</a>,
@@ -20,9 +20,9 @@ export default class extends React.Component {
     ];
     this.state = {
       data: [
-        { a: '123', key: '1' },
-        { a: 'cdd', b: 'edd', key: '2' },
-        { a: '1333', c: 'eee', key: '3' },
+        { a: 'Bible', b: 'King James', key: '1', c: '1905' },
+        { a: 'Bla', b: 'Bla', key: '2', c: '5423' },
+        { a: 'Testing', b: 'Tester', key: '3', c: '2016' },
       ],
     };
   }
@@ -56,8 +56,8 @@ export default class extends React.Component {
   render() {
     return (
       <div style={{ margin: 20 }}>
-        <h2>Table row with animation</h2>
-        <button onClick={() => this.onAdd()}>Test</button>
+        <h2>Book Collection</h2>
+        <button onClick={() => this.onAdd()}>Books</button>
         <Table
           columns={this.columns}
           data={this.state.data}
