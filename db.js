@@ -19,6 +19,17 @@ var postCollection = dbPromise.then((db) => {
 }).then((postCollection) => {
     return postCollection.createIndex('date').then(() => postCollection);
 });
+
+var catalogConnection = dbPromise.then((db) => {
+    return new Promise((resolve,reject) => {
+         db.createCollection('catalog', {}, (err, data) => {
+            if(err !== null) return reject(err);
+            resolve(data);
+         });
+    });
+}).then((catalogConnection) => {
+    return catalogConnection.createIndex('date').then(() => catalogConnection);
+});
     
 var userCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) =>{
@@ -35,6 +46,7 @@ const collections = {};
 var db;
 module.exports = Promise.all([
         postCollection.then((postCollection) => collections.post = postCollection),
+        catalogConnection.then((catalogCollection) => collections.catalog = catalogCollection),
         userCollection.then((userCollection) => collections.user = userCollection),
         dbPromise.then((_db) => db = _db),
     ]).then(() => ({

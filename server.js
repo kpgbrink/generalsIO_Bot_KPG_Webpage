@@ -85,11 +85,15 @@ app.post('/api/login', function(req, res) {
     });
 });
 
-app.get('/api/posts', function(req, res) {
-    getPostCollection(res);
+app.get('/api/posts', function(req, res, next) {
+    getPostCollection(res, next);
 });
 
-app.post('/api/posts', authorizedTo(), function(req, res) {
+app.get('/api/catalog', function(req, res, next) {
+    getCatalogCollection(res, next);
+});
+
+app.post('/api/posts', authorizedTo(), function(req, res, next) {
     // Check if logged in
     if (!req.session.mediaReactUserId) {
         return res.status(403).json({});
@@ -102,7 +106,7 @@ app.post('/api/posts', authorizedTo(), function(req, res) {
     };
     collections.post.insertOne(newPost, function(err, result) {
         if (err) throw err;
-        getPostCollection(res);
+        getPostCollection(res, next);
     });
 });
 
@@ -169,5 +173,10 @@ var getPostCollection = function (res, next) {
     }).catch(next);
 }
 
-
+var getCatalogCollection = function (res, next) {
+    collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
+        console.log(docs);
+        res.json(docs);
+    }).catch(next);
+}
 
