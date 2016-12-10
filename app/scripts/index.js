@@ -5,7 +5,7 @@ import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-route
 import CommentBox from './Post/PostBox.js';
 import CommentEdit from './Post/PostEdit.js';
 
-import Catalog from './Catalog/Catalog.js';
+import Catalog from './Catalog/CatalogBox.js';
 
 import User from './User/User.js';
 
