@@ -3,6 +3,9 @@ import $ from 'jquery';
 
 const Table = require('rc-table');
 import Animate from 'rc-animate';
+
+import PostForm from './CatalogBoxComponents/CatalogForm.js';
+
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
 
@@ -37,9 +40,9 @@ export default class extends React.Component {
   onAdd() {
     const data = [...this.state.data];
     data.push({
-      a: 'new data',
-      b: 'new data',
-      c: 'new data',
+      a: 'Harry Potter',
+      b: 'JK Rowling',
+      c: '2001',
       key: Date.now(),
     });
     this.setState({ data });
