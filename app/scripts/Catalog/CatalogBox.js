@@ -11,17 +11,62 @@ require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
 
 export default class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+            pendingId: 0
+        };
+        this.allowAjaxResponse = true;
+    }
+    loadPostsFromServer() {
+        $.ajax({
+            url: '/api/catalog',
+            dataType: 'json'
+        })
+         .done(function(result){
+             if (this.allowAjaxResponse) {
+                this.setState({data: result});
+             }
+         }.bind(this))
+         .fail(function(xhr, status, errorThrown) {
+             console.error(this.props.url, status, errorThrown.toString());
+         }.bind(this));
+    }
+    handlePostSubmit(post) {
+        var posts = this.state.data;
+        post._id = `prefixId-${this.state.pendingId}`;
+        var newPosts = [post].concat(posts);
+        this.setState({data: newPosts, pendingId: this.state.pendingId+1});
+        $.ajax({
+            url: '/api/catalog',
+            dataType: 'json',
+            type: 'POST',
+            data: post,
+        })
+         .done(function(result){
+             this.setState({data: result});
+         }.bind(this))
+         .fail(function(xhr, status, errorThrown) {
+             this.setState({data: posts});
+             console.error('/api/catalog', status, errorThrown.toString());
+         }.bind(this));
+    }
+    componentDidMount() {
+        this.loadPostsFromServer();
+        // No more interval
+        //setInterval(this.loadCommentsFromServer, POLL_INTERVAL);
+    }
+    componentWillUnmount() {
+        this.allowAjaxResponse = false;
+    }
 
   render() {
     return (
       <div style={{ margin: 20 }}>
         <h2>Add A Book...</h2>
-        <CatalogForm/>
-        <CatalogTable/>
+        <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
+        <CatalogTable data={this.state.data}/>
       </div>
     );
   }
