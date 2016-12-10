@@ -93,6 +93,24 @@ app.get('/api/catalog', function(req, res, next) {
     getCatalogCollection(res, next);
 });
 
+app.post('/api/catalog', authorizedTo(), function(req, res, next) {
+    // Check if logged in
+    if (!req.session.mediaReactUserId) {
+        return res.status(403).json({});
+    }
+    var newCatalog = {
+        title: req.body.title,
+        author: req.body.author,
+        year: req.body.year,
+        userId: ObjectId(req.session.mediaReactUserId),
+        date: new Date(),
+    };
+    collections.catalog.insertOne(newCatalog, function(err, result) {
+        if (err) throw err;
+        getCatalogCollection(res, next);
+    });
+});
+
 app.post('/api/posts', authorizedTo(), function(req, res, next) {
     // Check if logged in
     if (!req.session.mediaReactUserId) {
