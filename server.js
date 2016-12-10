@@ -31,7 +31,7 @@ const authorizedTo = function (role) {
         let userPromise = Promise.resolve(null);
         if (req.session.mediaReactUserId) {
             userPromise = collections.user.findOne({_id: ObjectId(req.session.mediaReactUserId)}).then((user) => {
-                console.log(user)
+                //console.log(user)
                 if (!user) {
                     req.session.mediaReactUserId = null;
                 }
@@ -119,7 +119,7 @@ app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
     collections.post.updateOne(
         { _id: updateId, userId: ObjectId(req.session.mediaReactUserId) },
         { $set: update }).then((result) => {
-            return getPostCollection(res);
+            return getPostCollection(res, next);
         }).catch(next);
 });
 
@@ -130,7 +130,7 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(res);
+            return getPostCollection(res, next);
         }).catch(next);
 });
 
@@ -161,12 +161,12 @@ db.then((dbThings) => {
     });
 });
 
-
-var getPostCollection = function (res) {
-    collections.post.find({}, {sort: { date : -1 }}).toArray(function(err, docs) {
-        if (err) throw err;
+// TODO make this get user id and email.
+var getPostCollection = function (res, next) {
+    collections.post.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
+        console.log(docs);
         res.json(docs);
-    });
+    }).catch(next);
 }
 
 
