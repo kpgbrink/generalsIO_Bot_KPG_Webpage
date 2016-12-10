@@ -11,7 +11,7 @@ var dbPromise = MongoClient.connect(mongoURL);
 // http://stackoverflow.com/a/22519785/2948122
 var postCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) => {
-         db.collection('post', (err, data) => {
+         db.createCollection('post', {validator: {userId: { $type: "objectId"}}}, (err, data) => {
             if(err !== null) return reject(err);
             resolve(data);
          });
@@ -22,7 +22,7 @@ var postCollection = dbPromise.then((db) => {
     
 var userCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) =>{
-         db.collection('user', (err, data) => {
+         db.createCollection('user', {validator: {email: { $type: "string"}}}, (err, data) => {
             if(err !== null) return reject(err);
             resolve(data);
          });

@@ -7,11 +7,13 @@ export default class extends React.Component{
         super();
         this.state = {};
     }
+    
     rawMarkup() {
         var md = new Remarkable({html: true});
         var rawMarkup = md.render(this.props.children.toString());
         return { __html: rawMarkup };
     }
+    
     render() {
         return (
             <div className="post">
