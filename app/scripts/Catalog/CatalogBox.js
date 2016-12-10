@@ -4,7 +4,7 @@ import $ from 'jquery';
 const Table = require('rc-table');
 import Animate from 'rc-animate';
 
-import PostForm from './CatalogBoxComponents/CatalogForm.js';
+import CatalogForm from './CatalogBoxComponents/CatalogForm.js';
 
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
@@ -60,6 +60,7 @@ export default class extends React.Component {
     return (
       <div style={{ margin: 20 }}>
         <h2>Book Collection</h2>
+        <CatalogForm/>
         <button onClick={() => this.onAdd()}>Books</button>
         <Table
           columns={this.columns}
