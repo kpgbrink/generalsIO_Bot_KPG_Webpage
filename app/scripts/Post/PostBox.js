@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 import PostList from './PostBoxComponents/PostList.js';
 import PostForm from './PostBoxComponents/PostForm.js';
-import {API_URL, POLL_INTERVAL} from '../global.js';
+import {API_POSTS} from '../global.js';
 
 export default class extends React.Component {
     constructor(props) {
@@ -16,7 +16,7 @@ export default class extends React.Component {
     }
     loadPostsFromServer() {
         $.ajax({
-            url: API_URL,
+            url: API_POSTS,
             dataType: 'json'
         })
          .done(function(result){
@@ -25,7 +25,7 @@ export default class extends React.Component {
              }
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
-             console.error(this.props.url, status, errorThrown.toString());
+             console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
     handlePostSubmit(post) {
@@ -34,7 +34,7 @@ export default class extends React.Component {
         var newPosts = [post].concat(posts);
         this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
-            url: API_URL,
+            url: API_POSTS,
             dataType: 'json',
             type: 'POST',
             data: post,
@@ -44,7 +44,7 @@ export default class extends React.Component {
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
              this.setState({data: posts});
-             console.error(API_URL, status, errorThrown.toString());
+             console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
     componentDidMount() {

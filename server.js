@@ -111,6 +111,18 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
     });
 });
 
+// TODO FINISH THIS
+app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
+    collections.catalog.deleteOne(
+        {'_id': ObjectId(req.params.id), userId: ObjectId(req.session.mediaReactUserId)}).then((result) => {
+            if (result.deletedCount == 0) {
+                res.status(403).end();
+                return;
+            }
+            return getPostCollection(res, next);
+        }).catch(next);
+});
+
 app.post('/api/posts', authorizedTo(), function(req, res, next) {
     // Check if logged in
     if (!req.session.mediaReactUserId) {
@@ -156,9 +168,7 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
         }).catch(next);
 });
 
-app.get('/api/postUser/:id', function(req, res, next) {
-    
-});
+
 
 // Send all routes/methods not specified above to the app root.
 app.use('*', express.static(APP_PATH));

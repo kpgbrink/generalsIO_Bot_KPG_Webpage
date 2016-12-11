@@ -6,6 +6,7 @@ import Animate from 'rc-animate';
 
 import CatalogTable from './CatalogBoxComponents/CatalogTable.js';
 import CatalogForm from './CatalogBoxComponents/CatalogForm.js';
+import {API_CATALOG} from '../global.js';
 
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
@@ -21,7 +22,7 @@ export default class extends React.Component {
     }
     loadPostsFromServer() {
         $.ajax({
-            url: '/api/catalog',
+            url: API_CATALOG,
             dataType: 'json'
         })
          .done(function(result){
@@ -33,13 +34,14 @@ export default class extends React.Component {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
+    
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
         var newPosts = [post].concat(posts);
         this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
-            url: '/api/catalog',
+            url: API_CATALOG,
             dataType: 'json',
             type: 'POST',
             data: post,
@@ -49,7 +51,7 @@ export default class extends React.Component {
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
              this.setState({data: posts});
-             console.error('/api/catalog', status, errorThrown.toString());
+             console.error(API_CATALOG, status, errorThrown.toString());
          }.bind(this));
     }
     componentDidMount() {

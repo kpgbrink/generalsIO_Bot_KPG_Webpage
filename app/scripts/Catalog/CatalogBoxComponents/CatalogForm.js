@@ -25,7 +25,7 @@ export default class extends React.Component{
             return;
         }
         this.props.onPostSubmit({title: title, author: author, year: year});
-        this.setState({title: '', text: '', year: ''});
+        this.setState({title: '', author: '', year: ''});
     }
     render() {
         return (

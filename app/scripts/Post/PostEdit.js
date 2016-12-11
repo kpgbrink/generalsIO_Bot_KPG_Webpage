@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
 
-import { API_URL } from '../global.js';
+import { API_POSTS } from '../global.js';
 
 export default class extends React.Component {
     constructor(props) {
@@ -24,7 +24,7 @@ export default class extends React.Component {
         }
     }
     loadData() {
-        $.ajax(API_URL + "/" + this.props.params.id) .done(function(posts) {
+        $.ajax(API_POSTS + "/" + this.props.params.id) .done(function(posts) {
             if (this.allowAjaxResponse) {
                 this.setState(posts[0]);
             }
@@ -47,7 +47,7 @@ export default class extends React.Component {
             text: this.state.text.trim()
         }
         $.ajax({
-            url: API_URL + "/" + this.props.params.id,
+            url: API_POSTS + "/" + this.props.params.id,
             dataType: 'json',
             type: 'PUT',
             contentType:'application/json',
@@ -57,19 +57,19 @@ export default class extends React.Component {
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
-             console.error(API_URL, status, errorThrown.toString());
+             console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
     handleDelete() {
         $.ajax({
-            url: API_URL + "/" + this.props.params.id,
+            url: API_POSTS + "/" + this.props.params.id,
             type: 'DELETE',
         })
          .done(function(posts){
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
-             console.error(API_URL, status, errorThrown.toString());
+             console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
     render() {
