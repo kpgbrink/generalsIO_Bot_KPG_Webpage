@@ -11,7 +11,7 @@ export default class extends React.Component{
   render() {
     var postNodes = this.props.data.map(function(post) {
       return (
-        <Post id={post._id} title={post.title} key={post._id}>
+        <Post id={post._id} title={post.title} key={post._id} userName={post.user.name} userAvatarUrl={post.user.avatarUrl}>
           {post.text}
         </Post>
       );

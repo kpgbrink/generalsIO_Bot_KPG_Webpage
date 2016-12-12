@@ -9,6 +9,7 @@ const app = express();
 const session = require('express-session');
 const url = require('url');
 const request = require('request');
+const _ = require('lodash');
 
 const APP_PATH = path.join(__dirname, 'dist');
 
@@ -73,8 +74,8 @@ app.post('/api/login', function(req, res) {
                 req.session.mediaReactUserId = String(user._id);
                 res.json({});
                 
-                // TODO: update profile pic
-                collections.user.update({_id: user._id}, {$set: {avatarUrl: body.picture}});
+                // TODO: update profile pick
+                collections.user.update({_id: user._id}, {$set: {avatarUrl: body.picture, name: body.name}});
             }).catch((ex) => {
                 console.error(ex);
                 res.status(500).end();
@@ -195,15 +196,28 @@ db.then((dbThings) => {
 
 // TODO make this get user id and email.
 var getPostCollection = function (res, next) {
+    // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
+    // Making this get user id and email
     collections.post.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
         console.log(docs);
-        res.json(docs);
+        
+        // http://stackoverflow.com/a/28069092
+        var uniqueUserIds = _(docs).map((ob) => String(ob.userId)).uniq().map((idString) => ObjectId(idString)).value();
+        console.log(uniqueUserIds);
+        collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
+            console.log(users);
+            console.log(docs);
+            var docUser = _.map(docs, (ob) => { console.log(ob); ob.user = _.find(users, {'_id': ob.userId}); console.log(ob); return ob;});
+            console.log(docUser);
+            console.log('Mark is the greatest, but why? We need to find out.');
+            res.json(docs);
+        }).catch(next);
     }).catch(next);
 }
 
 var getCatalogCollection = function (res, next) {
     collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
-        console.log(docs);
+        //console.log(docs);
         res.json(docs);
     }).catch(next);
 }

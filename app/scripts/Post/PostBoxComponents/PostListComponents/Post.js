@@ -19,6 +19,12 @@ export default class extends React.Component{
                     {this.props.title}
                 </h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
+                <div className="postUser">
+                    <p className="postUserName">
+                        {this.props.userName}
+                    </p>
+                    <img className="postUserAvatarUrl" src={this.props.userAvatarUrl}/>
+                </div>
 		        <Link to={'/Post/' + this.props.id}>Edit</Link>
             </div>
         );
