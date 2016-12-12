@@ -72,9 +72,9 @@ app.post('/api/login', function(req, res) {
             findOrCreateUserByEmail().then((user) => {
                 //console.log(`${body.email}: found userId=${user._id}`);
                 req.session.mediaReactUserId = String(user._id);
-                res.json({});
+                res.json({userId: user._id});
                 
-                // TODO: update profile pick
+                // TODO: update profile pic
                 collections.user.update({_id: user._id}, {$set: {avatarUrl: body.picture, name: body.name}});
             }).catch((ex) => {
                 console.error(ex);
@@ -96,11 +96,11 @@ app.post('/api/logout', function(req, res) {
 });
 
 app.get('/api/posts', function(req, res, next) {
-    getPostCollection(res, next);
+    getPostCollection(req, res, next);
 });
 
 app.get('/api/catalog', function(req, res, next) {
-    getCatalogCollection(res, next);
+    getCatalogCollection(req, res, next);
 });
 
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
@@ -129,15 +129,11 @@ app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(res, next);
+            return getPostCollection(req, res, next);
         }).catch(next);
 });
 
 app.post('/api/posts', authorizedTo(), function(req, res, next) {
-    // Check if logged in
-    if (!req.session.mediaReactUserId) {
-        return res.status(403).json({});
-    }
     var newPost = {
         date: new Date(),
         title: req.body.title,
@@ -146,7 +142,7 @@ app.post('/api/posts', authorizedTo(), function(req, res, next) {
     };
     collections.post.insertOne(newPost, function(err, result) {
         if (err) throw err;
-        getPostCollection(res, next);
+        getPostCollection(req, res, next);
     });
 });
 
@@ -163,7 +159,7 @@ app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
     collections.post.updateOne(
         { _id: updateId, userId: ObjectId(req.session.mediaReactUserId) },
         { $set: update }).then((result) => {
-            return getPostCollection(res, next);
+            return getPostCollection(req, res, next);
         }).catch(next);
 });
 
@@ -174,7 +170,7 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(res, next);
+            return getPostCollection(req, res, next);
         }).catch(next);
 });
 
@@ -204,7 +200,7 @@ db.then((dbThings) => {
 });
 
 // TODO make this get user id and email.
-var getPostCollection = function (res, next) {
+var getPostCollection = function (req, res, next) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
     collections.post.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
@@ -216,9 +212,18 @@ var getPostCollection = function (res, next) {
         collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
             //console.log(users);
             //console.log(docs);
-            var docUser = _.map(docs, (ob) => { ob.user = _.find(users, {'_id': ob.userId});  return ob;});
-            //console.log(docUser);
-            res.json(docs);
+            
+            // Add user data to the posts
+            var docUser = _.map(docs, (ob) => { 
+                ob.user = _.find(users, {'_id': ob.userId});
+                ob.myPost = (ob.userId == req.session.mediaReactUserId)
+                return ob;}
+            );
+            
+            // 
+            
+            console.log(docUser);
+            res.json(docUser);
         }).catch(next);
     }).catch(next);
 }

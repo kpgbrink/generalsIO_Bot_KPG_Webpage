@@ -12,6 +12,20 @@ export default class extends React.Component{
         var rawMarkup = md.render(this.props.children.toString());
         return { __html: rawMarkup };
     }
+    
+    renderEdit() {
+        console.log("My Post?"+ this.props.myPost);
+        if (this.props.myPost) {
+            return (
+                <Link to={'/Post/' + this.props.id}>Edit</Link>
+            );
+        } else {
+            return (
+                <p> not made by you</p>
+            );
+        }
+    }
+    
     render() {
         return (
             <div className="post">
@@ -25,7 +39,7 @@ export default class extends React.Component{
                         {this.props.userName}
                     </p>
                 </div>
-		        <Link to={'/Post/' + this.props.id}>Edit</Link>
+                {this.renderEdit()}
             </div>
         );
     }

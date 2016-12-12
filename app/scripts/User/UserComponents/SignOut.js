@@ -18,6 +18,8 @@ export default class SignOut extends React.Component {
             }).done(function(result) {
                 this.props.onSignOut();
                 console.log("SUCCESFULLLY LOGGED OUT");
+                
+                // reset global variables to null
                 window.userName = null;
                 window.userAvatarUrl = null;
             }.bind(this))
