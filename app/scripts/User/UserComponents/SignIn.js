@@ -1,6 +1,6 @@
 import React from "react";
 import gapi from "gapi";
-import $ from 'jquery';
+import $ from "jquery";
 
 let idSuffixCount = 0;
 
@@ -29,11 +29,15 @@ export default class SignIn extends React.Component {
                     console.log('Name: ' + profile.getName());
                     console.log('Image URL: ' + profile.getImageUrl());
                     console.log('Email: ' + profile.getEmail());
+                    
+                    // set global variables
+                    window.userName = profile.getName();
+                    window.userAvatarUrl = profile.getImageUrl();
                 }.bind(this))
                 .fail(function(xhr, status, errorThrown) {
                     console.error('api/login', status, errorThrown.toString());
                 }.bind(this));
-        },
+            },
             onfailure: () => {
                 alert("Failed to login");
             }

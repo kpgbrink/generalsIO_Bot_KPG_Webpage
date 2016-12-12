@@ -17,10 +17,12 @@ export default class extends React.Component{
         e.preventDefault();
         var title = this.state.title.trim();
         var text = this.state.text.trim();
+        var userName = window.userName;
+        var userAvatarUrl = window.userAvatarUrl;
         if (!text || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, text: text});
+        this.props.onPostSubmit({title: title, text: text, user: {name: userName, avatarUrl: userAvatarUrl} });
         this.setState({title: '', text: ''});
     }
     render() {

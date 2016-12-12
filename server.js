@@ -86,6 +86,15 @@ app.post('/api/login', function(req, res) {
     });
 });
 
+app.post('/api/logout', function(req, res) {
+    if (req.session.mediaReactUserId) {
+        req.session.mediaReactUserId = null;
+        res.json({});
+    } else {
+        res.status(500).end();
+    }
+});
+
 app.get('/api/posts', function(req, res, next) {
     getPostCollection(res, next);
 });
@@ -199,17 +208,16 @@ var getPostCollection = function (res, next) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
     collections.post.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
-        console.log(docs);
+        //console.log(docs);
         
         // http://stackoverflow.com/a/28069092
         var uniqueUserIds = _(docs).map((ob) => String(ob.userId)).uniq().map((idString) => ObjectId(idString)).value();
-        console.log(uniqueUserIds);
+        //console.log(uniqueUserIds);
         collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
-            console.log(users);
-            console.log(docs);
-            var docUser = _.map(docs, (ob) => { console.log(ob); ob.user = _.find(users, {'_id': ob.userId}); console.log(ob); return ob;});
-            console.log(docUser);
-            console.log('Mark is the greatest, but why? We need to find out.');
+            //console.log(users);
+            //console.log(docs);
+            var docUser = _.map(docs, (ob) => { ob.user = _.find(users, {'_id': ob.userId});  return ob;});
+            //console.log(docUser);
             res.json(docs);
         }).catch(next);
     }).catch(next);

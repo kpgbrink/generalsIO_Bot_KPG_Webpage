@@ -6,14 +6,16 @@ import SignOut from "./UserComponents/SignOut";
 
 // Todo. Make this point to a real image.
 const defaultProfileUrl = "images/profile/defaultProfilePic.png";
-const defaultFullName = "Full Name";
+const defaultUserName = "User Name";
+const defaultSignedIn = false;
 
 export default class extends React.Component{
 constructor() {
         super();
         this.state = {
             profileUrl: defaultProfileUrl,
-            fullName: defaultFullName
+            userName: defaultUserName,
+            signedIn: defaultSignedIn,
         }
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
@@ -23,24 +25,41 @@ constructor() {
         let profile = googleUser.getBasicProfile();
         this.setState({
             profileUrl: profile.getImageUrl(),
-            fullName: profile.getName()
+            userName: profile.getName(),
+            signedIn: true,
         });
     }
     
     handleSignOut() {
         this.setState({
             profileUrl: defaultProfileUrl,
-            fullName: defaultFullName
+            userName: defaultUserName,
+            signedIn: defaultSignedIn,
         });
+    }
+    
+    renderSignOut() {
+        console.log('ruruun');
+        if (this.state.signedIn) {
+            console.log("this is actually doing something");
+            return (
+                <SignOut className="signOut" onSignOut={this.handleSignOut.bind(this)}/>
+            );
+        } else {
+            return (
+                <p>Please Sign In</p>
+            );
+        }
     }
 
     render() {
+                console.log(this.state.signedIn);
         return (
-            <div>
-                <ProfileImage profileUrl={this.state.profileUrl}/>
+            <div className="user">
+                <ProfileImage className="userProfileImage" profileUrl={this.state.profileUrl}/>
                 <SignIn onSignIn={this.handleSignIn}/>
-                <h2 className="full-name">{this.state.fullName}</h2>
-                <SignOut onSignOut={this.handleSignOut}/>
+                <h2 className="userName">{this.state.userName}</h2>
+                {this.renderSignOut()}
             </div>
             );
     }
