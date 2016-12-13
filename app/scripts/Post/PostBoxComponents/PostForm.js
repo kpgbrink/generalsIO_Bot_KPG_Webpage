@@ -19,10 +19,11 @@ export default class extends React.Component{
         var text = this.state.text.trim();
         var userName = window.userName;
         var userAvatarUrl = window.userAvatarUrl;
+        var myPost = true;
         if (!text || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, text: text, user: {name: userName, avatarUrl: userAvatarUrl} });
+        this.props.onPostSubmit({title: title, text: text, user: {name: userName, avatarUrl: userAvatarUrl}, myPost: myPost });
         this.setState({title: '', text: ''});
     }
     render() {

@@ -52,6 +52,7 @@ export default class extends React.Component {
          .fail(function(xhr, status, errorThrown) {
              this.setState({data: posts});
              console.error(API_CATALOG, status, errorThrown.toString());
+             alert('Please Login');
          }.bind(this));
     }
     componentDidMount() {
@@ -66,7 +67,7 @@ export default class extends React.Component {
   render() {
     return (
       <div style={{ margin: 20 }}>
-        <h2>Add A Book...</h2>
+        <h2>Add A Book…</h2>
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <CatalogTable data={this.state.data}/>
       </div>

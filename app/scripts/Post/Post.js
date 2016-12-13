@@ -13,17 +13,25 @@ export default class extends React.Component{
         return { __html: rawMarkup };
     }
     
-    renderEdit() {
+    renderEditLink() {
         console.log("My Post?"+ this.props.myPost);
         if (this.props.myPost) {
             return (
-                <Link to={'/Post/' + this.props.id}>Edit</Link>
+                <Link to={'/Post/' + this.props.id + '/edit'}>Edit</Link>
             );
         } else {
             return (
                 <p> not made by you</p>
             );
         }
+    }
+    
+    renderCommentsLink() {
+        // TODO somehow make comments display the amount of comments
+        
+        return (
+            <Link to={'/Post/' + this.props.id}>Comments</Link>
+        );
     }
     
     render() {
@@ -39,7 +47,10 @@ export default class extends React.Component{
                         {this.props.userName}
                     </p>
                 </div>
-                {this.renderEdit()}
+                <div className="postLinks">
+                    {this.renderEditLink()}
+                    {this.renderCommentsLink()}
+                </div>    
             </div>
         );
     }

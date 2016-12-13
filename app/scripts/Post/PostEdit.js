@@ -24,9 +24,9 @@ export default class extends React.Component {
         }
     }
     loadData() {
-        $.ajax(API_POSTS + "/" + this.props.params.id) .done(function(posts) {
+        $.ajax(API_POSTS + "/" + encodeURIComponent(this.props.params.id)).done(function(post) {
             if (this.allowAjaxResponse) {
-                this.setState(posts[0]);
+                this.setState(post);
             }
         }.bind(this));
     }
@@ -47,13 +47,13 @@ export default class extends React.Component {
             text: this.state.text.trim()
         }
         $.ajax({
-            url: API_POSTS + "/" + this.props.params.id,
+            url: API_POSTS + "/" + encodeURIComponent(this.props.params.id),
             dataType: 'json',
             type: 'PUT',
             contentType:'application/json',
             data: JSON.stringify(updatedPost)
         })
-         .done(function(posts){
+         .done(function(post){
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
@@ -65,7 +65,7 @@ export default class extends React.Component {
             url: API_POSTS + "/" + this.props.params.id,
             type: 'DELETE',
         })
-         .done(function(posts){
+         .done(function(post){
              this.context.router.push('/Post');
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {

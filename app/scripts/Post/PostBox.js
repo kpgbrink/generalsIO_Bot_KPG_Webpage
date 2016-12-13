@@ -31,6 +31,7 @@ export default class extends React.Component {
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
+        console.log("Is my post true!!!!!!!!!!!!!!!!!!!!!!!!! " + post.myPost);
         var newPosts = [post].concat(posts);
         this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
@@ -45,6 +46,7 @@ export default class extends React.Component {
          .fail(function(xhr, status, errorThrown) {
              this.setState({data: posts});
              console.error(API_POSTS, status, errorThrown.toString());
+             alert('Please Login to Post');
          }.bind(this));
     }
     componentDidMount() {

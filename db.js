@@ -11,13 +11,36 @@ var dbPromise = MongoClient.connect(mongoURL);
 // http://stackoverflow.com/a/22519785/2948122
 var postCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) => {
-         db.createCollection('post', {validator: {userId: { $type: "objectId"}}}, (err, data) => {
+         db.createCollection('post', {
+             validator: {
+                 userId: { $type: "objectId"},
+                 date: { $type: "date"},
+             },
+         }, (err, data) => {
             if(err !== null) return reject(err);
             resolve(data);
          });
     });
 }).then((postCollection) => {
     return postCollection.createIndex('date').then(() => postCollection);
+});
+
+// http://stackoverflow.com/a/22519785/2948122
+var commentCollection = dbPromise.then((db) => {
+    return new Promise((resolve, reject) => {
+         db.createCollection('comment', {
+             validator: {
+                 postId: { $type: "objectId"},
+                 date: { $type: "date"},
+                 parentCommentId: { $type: "objectId"},
+             },
+         }, (err, data) => {
+            if(err !== null) return reject(err);
+            resolve(data);
+         });
+    });
+}).then((commentCollection) => {
+    return commentCollection.createIndex('date').then(() => commentCollection);
 });
 
 var catalogConnection = dbPromise.then((db) => {
@@ -46,6 +69,7 @@ const collections = {};
 var db;
 module.exports = Promise.all([
         postCollection.then((postCollection) => collections.post = postCollection),
+        commentCollection.then((commentCollection) => collections.comment = commentCollection),
         catalogConnection.then((catalogCollection) => collections.catalog = catalogCollection),
         userCollection.then((userCollection) => collections.user = userCollection),
         dbPromise.then((_db) => db = _db),

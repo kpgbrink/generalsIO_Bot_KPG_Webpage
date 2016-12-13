@@ -54,7 +54,6 @@ export default class extends React.Component {
     return (
       <div style={{ margin: 20 }}>
         <h2>Book Collection</h2>
-        <button onClick={() => this.onAdd()}>Books</button>
         <Table
           columns={this.columns}
           data={this.props.data}

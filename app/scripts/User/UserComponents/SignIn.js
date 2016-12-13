@@ -30,6 +30,7 @@ export default class SignIn extends React.Component {
                     console.log('Image URL: ' + profile.getImageUrl());
                     console.log('Email: ' + profile.getEmail());
                     
+                    // fix this so it doesn't break...
                     window.userName = profile.getName();
                     window.userAvatarUrl = profile.getImageUrl();
                 }.bind(this))

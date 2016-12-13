@@ -146,11 +146,20 @@ app.post('/api/posts', authorizedTo(), function(req, res, next) {
     });
 });
 
-app.get('/api/posts/:id', function(req, res) {
-    collections.post.find({_id:  ObjectId(req.params.id)}).toArray(function(err, docs) {
-        if (err) throw err;
-        res.json(docs);
-    });
+// TODO FINISH THIS
+app.get('/api/posts/:id', function(req, res, next) {
+    console.log('getting the post for ye');
+    collections.post.findOne({_id:  ObjectId(req.params.id)}).then((post) => {
+        // add user to docs
+        collections.user.findOne({_id: ObjectId(post.userId)}).then((user) => {
+            // TODO make this a function that getPostCollection uses
+            post.user = user;
+            post.myPost = (post.userId == req.session.mediaReactUserId);
+            post.user = userAsPublic(post.user);
+            console.log(post);
+            res.json(post);
+        }).catch(next);
+    }).catch(next);
 });
 
 app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
@@ -203,27 +212,25 @@ db.then((dbThings) => {
 var getPostCollection = function (req, res, next) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
-    collections.post.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
+    collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
         //console.log(docs);
         
         // http://stackoverflow.com/a/28069092
-        var uniqueUserIds = _(docs).map((ob) => String(ob.userId)).uniq().map((idString) => ObjectId(idString)).value();
+        var uniqueUserIds = _(posts).map((posts) => String(posts.userId)).uniq().map((idString) => ObjectId(idString)).value();
         //console.log(uniqueUserIds);
         collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
             //console.log(users);
             //console.log(docs);
-            
             // Add user data to the posts
-            var docUser = _.map(docs, (ob) => { 
-                ob.user = _.find(users, {'_id': ob.userId});
-                ob.myPost = (ob.userId == req.session.mediaReactUserId)
-                return ob;}
+            var postUser = _.map(posts, (post) => { 
+                post.user = _.find(users, {'_id': post.userId});
+                post.myPost = (post.userId == req.session.mediaReactUserId);
+                post.user = userAsPublic(post.user);
+                return post;
+            }
             );
-            
-            // 
-            
-            console.log(docUser);
-            res.json(docUser);
+            //console.log(postUser);
+            res.json(postUser);
         }).catch(next);
     }).catch(next);
 }
@@ -235,3 +242,6 @@ var getCatalogCollection = function (res, next) {
     }).catch(next);
 }
 
+var userAsPublic = function (user) {
+    return _.pick(user, ['_id', 'avatarUrl', 'name']);
+}

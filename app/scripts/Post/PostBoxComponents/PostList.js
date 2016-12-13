@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import Post from './PostListComponents/Post.js';
+import Post from '../Post.js';
 
 
 export default class extends React.Component{
