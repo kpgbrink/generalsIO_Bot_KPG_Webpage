@@ -4,8 +4,11 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            title: '', author: '', year: ''
+            catalog: '', title: '', author: '', year: ''
         }
+    }
+    handleCatalogChange(e) {
+        this.setState({catalog: e.target.value});
     }
     handleAuthorChange(e) {
         this.setState({title: e.target.value});
@@ -18,6 +21,7 @@ export default class extends React.Component{
     }
     handleSubmit(e) {
         e.preventDefault();
+        var catalog = this.state.catalog.trim();
         var title = this.state.title.trim();
         var author = this.state.author.trim();
         var year = this.state.year.trim();
@@ -25,11 +29,17 @@ export default class extends React.Component{
             return;
         }
         this.props.onPostSubmit({title: title, author: author, year: year});
-        this.setState({title: '', author: '', year: ''});
+        this.setState({catalog: '', title: '', author: '', year: ''});
     }
     render() {
         return (
             <form className="CatalogForm" onSubmit={this.handleSubmit.bind(this)}>
+                <select name="ui-widget ui-corner-all" placeholder="catalog.."
+                value={this.state.catalog} onChange={this.handleCatalogChange.bind(this)}>
+                  <option value="Book">Book</option>
+                  <option value="Movie">Movie</option>
+                  <option value="Music">Music</option>
+                </select>
                 <input className="ui-widget ui-corner-all" type="text" placeholder="name..."
                     value={this.state.title} onChange={this.handleAuthorChange.bind(this)}
                 />
