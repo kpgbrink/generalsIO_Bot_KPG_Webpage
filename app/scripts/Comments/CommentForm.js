@@ -25,7 +25,7 @@ export default class extends React.Component{
     render() {
         return (
             <form className="comment-form" onSubmit={this.handleSubmit.bind(this)}>
-                <input className="ui-widget ui-corner-all" type="text" placeholder="comment..."
+                <textarea ref={input => {if(input!=null){input.focus();}}} className="ui-widget ui-corner-all" type="text" placeholder="comment..."
                     value={this.state.text} onChange={this.handleTextChange.bind(this)}
                 />
                 <button className="ui-button ui-widget ui-corner-all" type="submit">Comment</button>
