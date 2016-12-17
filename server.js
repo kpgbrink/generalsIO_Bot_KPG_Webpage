@@ -73,7 +73,7 @@ app.post('/api/login', function(req, res) {
                 //console.log(`${body.email}: found userId=${user._id}`);
                 req.session.mediaReactUserId = String(user._id);
                 res.json({userId: user._id});
-                
+
                 // TODO: update profile pic
                 collections.user.update({_id: user._id}, {$set: {avatarUrl: body.picture, name: body.name}});
             }).catch((ex) => {
@@ -109,6 +109,7 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
         return res.status(403).json({});
     }
     var newCatalog = {
+        collection: req.body.collection,
         title: req.body.title,
         author: req.body.author,
         year: req.body.year,
@@ -210,7 +211,7 @@ db.then((dbThings) => {
     collections = dbThings.collections;
     console.log("DB resolved");
     const outerApp = express();
-    
+
     // Sessions
     outerApp.use(session({
       secret: 'keyboard cat',
@@ -218,9 +219,9 @@ db.then((dbThings) => {
       saveUninitialized: false,
       store: dbThings.sessionStore
     }));
-    
+
     outerApp.use(app);
-    
+
     outerApp.listen(app.get('port'), function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');
     });
@@ -232,7 +233,7 @@ var getPostCollection = function (req, res) {
     // Making this get user id and email
     return collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
         //console.log(docs);
-        
+
         // http://stackoverflow.com/a/28069092
         var uniqueUserIds = _(posts).map((posts) => String(posts.userId)).uniq().map((idString) => ObjectId(idString)).value();
         //console.log(uniqueUserIds);

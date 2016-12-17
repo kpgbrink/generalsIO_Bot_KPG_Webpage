@@ -34,7 +34,7 @@ export default class extends React.Component {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
-    
+
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
@@ -67,7 +67,7 @@ export default class extends React.Component {
   render() {
     return (
       <div style={{ margin: 20 }}>
-        <h2>Add A Book…</h2>
+        <h2>Add A Record To A Collection…</h2>
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <CatalogTable data={this.state.data}/>
       </div>
