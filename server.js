@@ -96,11 +96,11 @@ app.post('/api/logout', function(req, res) {
 });
 
 app.get('/api/posts', function(req, res, next) {
-    getPostCollection(req, res, next);
+    getPostCollection(req, res).catch(next);
 });
 
 app.get('/api/catalog', function(req, res, next) {
-    getCatalogCollection(req, res, next);
+    getCatalogCollection(req, res).catch(next);
 });
 
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
@@ -115,10 +115,9 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
         userId: ObjectId(req.session.mediaReactUserId),
         date: new Date(),
     };
-    collections.catalog.insertOne(newCatalog, function(err, result) {
-        if (err) throw err;
-        getCatalogCollection(res, next);
-    });
+    collections.catalog.insertOne(newCatalog).then((result) => {
+        return getCatalogCollection(res);
+    }).catch(next);
 });
 
 // TODO FINISH THIS
@@ -129,7 +128,7 @@ app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(req, res, next);
+            return getPostCollection(req, res);
         }).catch(next);
 });
 
@@ -140,10 +139,9 @@ app.post('/api/posts', authorizedTo(), function(req, res, next) {
         text: req.body.text,
         userId: ObjectId(req.session.mediaReactUserId),
     };
-    collections.post.insertOne(newPost, function(err, result) {
-        if (err) throw err;
-        getPostCollection(req, res, next);
-    });
+    collections.post.insertOne(newPost).then((result) => {
+        return getPostCollection(req, res);
+    }).catch(next);
 });
 
 // TODO FINISH THIS
@@ -151,24 +149,29 @@ app.get('/api/posts/:id', function(req, res, next) {
     console.log('getting the post for ye');
     collections.post.findOne({_id:  ObjectId(req.params.id)}).then((post) => {
         // add user to docs
-        collections.user.findOne({_id: ObjectId(post.userId)}).then((user) => {
+        return collections.user.findOne({_id: ObjectId(post.userId)}).then((user) => {
             // TODO make this a function that getPostCollection uses
             post.user = user;
-            post.myPost = (post.userId == req.session.mediaReactUserId);
+            //post.myPost = (post.userId == req.session.mediaReactUserId);
             post.user = userAsPublic(post.user);
             console.log(post);
-            res.json(post);
-        }).catch(next);
+            return collections.comment.find({postId: post._id}).toArray().then((comments) => {
+                const commentById = new Map(comments.map((comment) => [comment._id, comment]));
+                
+                res.json(post);
+            });
+        });
     }).catch(next);
 });
 
 app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
+    // Make this throw a 403
     var updateId = ObjectId(req.params.id);
     var update = req.body;
     collections.post.updateOne(
         { _id: updateId, userId: ObjectId(req.session.mediaReactUserId) },
         { $set: update }).then((result) => {
-            return getPostCollection(req, res, next);
+            return getPostCollection(req, res);
         }).catch(next);
 });
 
@@ -179,11 +182,26 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(req, res, next);
+            return getPostCollection(req, res);
         }).catch(next);
 });
 
-
+app.post('/api/comments', authorizedTo(), function(req, res, next) {
+    collections.comment.findOne({'_id': ObjectId(req.body.parentCommentId)}).then((parentComment) => {
+        const parentCommentId = parentComment ? parentComment._id : null;
+        var newComment = {
+            date: new Date(),
+            text: req.body.text,
+            userId: ObjectId(req.session.mediaReactUserId),
+            postId: ObjectId(req.body.postId),
+            parentCommentId: parentCommentId,
+            ancestorCommentIds: parentComment ? _.take([parentCommentId].concat(parentComment.ancestorCommentIds), 20) : [],
+        };
+        return collections.comment.insertOne(newComment).then((result) => {
+            return getPostCollection(req, res);
+        });
+    }).catch(next);
+});
 
 // Send all routes/methods not specified above to the app root.
 app.use('*', express.static(APP_PATH));
@@ -209,37 +227,39 @@ db.then((dbThings) => {
 });
 
 // TODO make this get user id and email.
-var getPostCollection = function (req, res, next) {
+var getPostCollection = function (req, res) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
-    collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
+    return collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
         //console.log(docs);
         
         // http://stackoverflow.com/a/28069092
         var uniqueUserIds = _(posts).map((posts) => String(posts.userId)).uniq().map((idString) => ObjectId(idString)).value();
         //console.log(uniqueUserIds);
-        collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
+        return collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
             //console.log(users);
             //console.log(docs);
             // Add user data to the posts
+            // turn to dictionary with _id as key
+            users = _.keyBy(users, "_id");
             var postUser = _.map(posts, (post) => { 
-                post.user = _.find(users, {'_id': post.userId});
-                post.myPost = (post.userId == req.session.mediaReactUserId);
+                post.user = users[post.userId];
+                //post.myPost = (post.userId == req.session.mediaReactUserId);
                 post.user = userAsPublic(post.user);
                 return post;
             }
             );
             //console.log(postUser);
             res.json(postUser);
-        }).catch(next);
-    }).catch(next);
+        });
+    });
 }
 
-var getCatalogCollection = function (res, next) {
-    collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
+var getCatalogCollection = function (res) {
+    return collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
         //console.log(docs);
         res.json(docs);
-    }).catch(next);
+    });
 }
 
 var userAsPublic = function (user) {

@@ -32,7 +32,10 @@ var commentCollection = dbPromise.then((db) => {
              validator: {
                  postId: { $type: "objectId"},
                  date: { $type: "date"},
-                 parentCommentId: { $type: "objectId"},
+                 $or: [
+                     {parentCommentId: { $type: 'null', }},
+                     {parentCommentId: { $type: "objectId"}},
+                 ],
              },
          }, (err, data) => {
             if(err !== null) return reject(err);

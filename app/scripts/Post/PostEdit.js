@@ -75,7 +75,7 @@ export default class extends React.Component {
     render() {
         return (
             <div>
-                <form className="postForm">
+                <form className="post-form">
                     <h1>Post Edit - {this.props.params.id}</h1>
                     <input
                         type="text"

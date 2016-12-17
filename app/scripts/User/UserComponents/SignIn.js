@@ -5,8 +5,8 @@ import $ from "jquery";
 let idSuffixCount = 0;
 
 export default class SignIn extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.id = 'User-UserComponents-SignIn.js-' + idSuffixCount++;
         this.state = {
         };
@@ -25,14 +25,16 @@ export default class SignIn extends React.Component {
                 .done(function(result) {
                     this.props.onSignIn(googleUser);
                     var profile = googleUser.getBasicProfile();
-                    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                    
+                    console.log('ID: ' + profile.getId());
                     console.log('Name: ' + profile.getName());
                     console.log('Image URL: ' + profile.getImageUrl());
                     console.log('Email: ' + profile.getEmail());
                     
-                    // fix this so it doesn't break...
-                    window.userName = profile.getName();
-                    window.userAvatarUrl = profile.getImageUrl();
+                    this.props.onSignIn({id: result.userId, 
+                                        name: profile.getName(),
+                                        avatarImageUrl: profile.getImageUrl(),
+                                        });
                 }.bind(this))
                 .fail(function(xhr, status, errorThrown) {
                     console.error('api/login', status, errorThrown.toString());

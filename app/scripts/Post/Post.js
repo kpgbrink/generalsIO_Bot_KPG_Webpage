@@ -3,8 +3,8 @@ import Remarkable from 'remarkable';
 import { Link } from 'react-router';
 
 export default class extends React.Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
     }
     rawMarkup() {
@@ -14,40 +14,36 @@ export default class extends React.Component{
     }
     
     renderEditLink() {
-        console.log("My Post?"+ this.props.myPost);
-        if (this.props.myPost) {
+        if (this.props.user.id == this.props.userId) {
             return (
-                <Link to={'/Post/' + this.props.id + '/edit'}>Edit</Link>
-            );
-        } else {
-            return (
-                <p> not made by you</p>
+                <Link to={'/Post/' + this.props.id + '/edit'}>Edit </Link>
             );
         }
     }
     
     renderCommentsLink() {
         // TODO somehow make comments display the amount of comments
-        
-        return (
-            <Link to={'/Post/' + this.props.id}>Comments</Link>
-        );
+        if (this.props.comments) {
+            return (
+                <Link to={'/Post/' + this.props.id}>Comments</Link>
+            );
+        }
     }
     
     render() {
         return (
             <div className="post">
-                <h2 className="postTitle" >
+                <h2 className="post-title" >
                     {this.props.title}
                 </h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
-                <div className="postUser">
-                    <img className="postUserAvatarUrl" src={this.props.userAvatarUrl}/>
-                    <p className="postUserName">
+                <div className="post-user">
+                    <img className="post-user-avatar-url" src={this.props.userAvatarUrl}/>
+                    <p className="post-user-name">
                         {this.props.userName}
                     </p>
                 </div>
-                <div className="postLinks">
+                <div className="post-links">
                     {this.renderEditLink()}
                     {this.renderCommentsLink()}
                 </div>    

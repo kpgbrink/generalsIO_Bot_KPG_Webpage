@@ -4,46 +4,21 @@ import ProfileImage from "./UserComponents/ProfileImage";
 import SignIn from "./UserComponents/SignIn";
 import SignOut from "./UserComponents/SignOut";
 
-// Todo. Make this point to a real image.
-const defaultProfileUrl = "images/profile/defaultProfilePic.png";
-const defaultUserName = "User Name";
-const defaultSignedIn = false;
+
 
 export default class extends React.Component{
-constructor() {
-        super();
+constructor(props) {
+        super(props);
         this.state = {
-            profileUrl: defaultProfileUrl,
-            userName: defaultUserName,
-            signedIn: defaultSignedIn,
         }
-        this.handleSignIn = this.handleSignIn.bind(this);
-        this.handleSignOut = this.handleSignOut.bind(this);
     }
-    
-    handleSignIn(googleUser) {
-        let profile = googleUser.getBasicProfile();
-        this.setState({
-            profileUrl: profile.getImageUrl(),
-            userName: profile.getName(),
-            signedIn: true,
-        });
-    }
-    
-    handleSignOut() {
-        this.setState({
-            profileUrl: defaultProfileUrl,
-            userName: defaultUserName,
-            signedIn: defaultSignedIn,
-        });
-    }
-    
+        
     renderSignOut() {
-        console.log('ruruun');
-        if (this.state.signedIn) {
+        // Only render signOut if logged in
+        if (this.props.user.id) {
             console.log("this is actually doing something");
             return (
-                <SignOut className="signOut" onSignOut={this.handleSignOut.bind(this)}/>
+                <SignOut className="signOut" onSignOut={this.props.onSignOut}/>
             );
         } else {
             return (
@@ -53,12 +28,12 @@ constructor() {
     }
 
     render() {
-                console.log(this.state.signedIn);
+        console.log(this.state.signedIn);
         return (
             <div className="user">
-                <ProfileImage className="userProfileImage" profileUrl={this.state.profileUrl}/>
-                <SignIn onSignIn={this.handleSignIn}/>
-                <h2 className="userName">{this.state.userName}</h2>
+                <ProfileImage className="user-profile-image" profileUrl={this.props.user.avatarImageUrl}/>
+                <SignIn onSignIn={this.props.onSignIn}/>
+                <h2 className="user-name">{this.props.user.name}</h2>
                 {this.renderSignOut()}
             </div>
             );
