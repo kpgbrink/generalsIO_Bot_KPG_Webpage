@@ -13,7 +13,7 @@ export default class CommentThread extends React.Component {
     render() {
         var commentThread = this.props.comment.comments.map((comment) => {
             return (
-                <CommentThread key={comment.id} comment={comment} parentComment={this.props.comment} onCommentSubmit={this.props.onCommentSubmit}/>
+                <CommentThread key={comment._id} comment={comment} parentComment={this.props.comment} onCommentSubmit={this.props.onCommentSubmit}/>
             )
         })
         

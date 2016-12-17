@@ -61,6 +61,10 @@ ul {
   padding-left: 30px;
 }
 
-.comment-thread {
-    margin-left: 4em;
+:global(.comment-thread) {
+    margin-left: 2em;
+}
+
+* {
+    border: 2pt solid gold;
 }

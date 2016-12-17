@@ -12,6 +12,7 @@ export default class extends React.Component {
     
     
     displayResponse() {
+        console.log("props comment: ", this.props.comment)
         if (this.state.showCommentForm) {
             return (
                 <div className="comment-reply">

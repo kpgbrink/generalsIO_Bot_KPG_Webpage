@@ -229,7 +229,7 @@ var getPost = function (postId, res) {
         if (!post) {
             throw new Error(`post ${postId} does not exist`);
         }
-        return collections.comment.find({postId: post._id}).toArray().then((comments) => {
+        return collections.comment.find({postId: post._id}, {sort: {date : -1 }}).toArray().then((comments) => {
             const commentById = _.keyBy(comments, "_id");
             // Make sure everything has a comments key
             for (let comment of comments) {
@@ -238,9 +238,9 @@ var getPost = function (postId, res) {
             // attach the comments to each other.
             post.comments = [];
             for (let comment of comments) {
-                if (comment.parentId) {
+                if (comment.parentCommentId) {
                     // find the parents then add it to parent then make them combine.
-                    commentById[comment.parentId].comments.push(comment);
+                    commentById[comment.parentCommentId].comments.push(comment);
                 } else {
                     // attach to array of top level comments
                     post.comments.push(comment);
