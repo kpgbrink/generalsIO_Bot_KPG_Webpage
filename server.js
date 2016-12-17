@@ -100,7 +100,7 @@ app.get('/api/posts', function(req, res, next) {
 });
 
 app.get('/api/catalog', function(req, res, next) {
-    getCatalogCollection(req, res).catch(next);
+    getCatalogCollection(res).catch(next);
 });
 
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
@@ -158,7 +158,7 @@ app.get('/api/posts/:id', function(req, res, next) {
             console.log(post);
             return collections.comment.find({postId: post._id}).toArray().then((comments) => {
                 const commentById = new Map(comments.map((comment) => [comment._id, comment]));
-                
+                // find the parents then add it to parent then make them combine.
                 res.json(post);
             });
         });
