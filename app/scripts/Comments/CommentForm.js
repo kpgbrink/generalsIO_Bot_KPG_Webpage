@@ -16,13 +16,10 @@ export default class extends React.Component{
     handleSubmit(e) {
         e.preventDefault();
         var text = this.state.text.trim();
-        var userName = window.userName;
-        var userAvatarUrl = window.userAvatarUrl;
-        var myComment = true;
         if (!text) {
             return;
         }
-        this.props.onCommentSubmit({text: text, user: {name: userName, avatarUrl: userAvatarUrl}, myComment: myComment }, null);
+        this.props.onCommentSubmit({text: text }, null);
         this.setState({text: ''});
     }
     render() {

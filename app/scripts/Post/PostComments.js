@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import Post from './Post.js';
-import Comments from '../Comments/Comments.js';
+import CommentThreads from '../Comments/CommentThreads.js';
 import CommentForm from '../Comments/CommentForm.js';
 
 import { API_POSTS } from '../global.js';
@@ -27,7 +27,7 @@ export default class extends React.Component {
         }
     }
     loadPostData() {
-        $.ajax(API_POSTS + "/" + this.props.params.id) .done(function(post) {
+        $.ajax(API_POSTS + "/" + encodeURIComponent(this.props.params.id)) .done(function(post) {
             if (this.allowAjaxResponse) {
                 this.setState({post: post}); // does this do it right?
             }
@@ -37,7 +37,9 @@ export default class extends React.Component {
     handleCommentSubmit(comment, parentComment) {
         comment.parentCommentId = (parentComment || {})._id;
         comment._id = `prefixId-${this.state.pendingId}`;
-        console.log("Is my post true! " + comment.myComment);
+        comment.postId = this.state.post._id;
+        comment.user = this.props.user;
+        comment.comments = [];
         if (parentComment == null) {
             this.state.post.comments.unshift(comment);
         } else {
@@ -66,6 +68,7 @@ export default class extends React.Component {
     
     render() {
         var post = this.state.post;
+        console.log(post);
         if (!post) {
             return (<div/>);
         }
@@ -75,7 +78,7 @@ export default class extends React.Component {
                 <Post id={post._id} title={post.title} key={post._id} userName={post.user.name} userAvatarUrl={post.user.avatarUrl} userId={post.userId} user={this.props.user}>
                 {post.text}</Post>
                 <CommentForm post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>
-                <Comments post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>
+                <CommentThreads post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>
             </div>
         );
     }

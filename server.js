@@ -148,21 +148,7 @@ app.post('/api/posts', authorizedTo(), function(req, res, next) {
 // TODO FINISH THIS
 app.get('/api/posts/:id', function(req, res, next) {
     console.log('getting the post for ye');
-    collections.post.findOne({_id:  ObjectId(req.params.id)}).then((post) => {
-        // add user to docs
-        return collections.user.findOne({_id: ObjectId(post.userId)}).then((user) => {
-            // TODO make this a function that getPostCollection uses
-            post.user = user;
-            //post.myPost = (post.userId == req.session.mediaReactUserId);
-            post.user = userAsPublic(post.user);
-            console.log(post);
-            return collections.comment.find({postId: post._id}).toArray().then((comments) => {
-                const commentById = new Map(comments.map((comment) => [comment._id, comment]));
-                // find the parents then add it to parent then make them combine.
-                res.json(post);
-            });
-        });
-    }).catch(next);
+    getPost(req.params.id, res).catch(next);
 });
 
 app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
@@ -188,19 +174,24 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
 });
 
 app.post('/api/comments', authorizedTo(), function(req, res, next) {
-    collections.comment.findOne({'_id': ObjectId(req.body.parentCommentId)}).then((parentComment) => {
-        const parentCommentId = parentComment ? parentComment._id : null;
-        var newComment = {
-            date: new Date(),
-            text: req.body.text,
-            userId: ObjectId(req.session.mediaReactUserId),
-            postId: ObjectId(req.body.postId),
-            parentCommentId: parentCommentId,
-            ancestorCommentIds: parentComment ? _.take([parentCommentId].concat(parentComment.ancestorCommentIds), 20) : [],
-        };
-        return collections.comment.insertOne(newComment).then((result) => {
-            return getPostCollection(req, res);
-        });
+    collections.post.findOne({_id: ObjectId(req.body.postId)}).then((post) => {
+        if (!post) {
+            throw new Error("post does not exist");
+        }
+        collections.comment.findOne({'_id': ObjectId(req.body.parentCommentId)}).then((parentComment) => {
+            const parentCommentId = parentComment ? parentComment._id : null;
+            var newComment = {
+                date: new Date(),
+                text: req.body.text,
+                userId: ObjectId(req.session.mediaReactUserId),
+                postId: post._id,
+                parentCommentId: parentCommentId,
+                ancestorCommentIds: parentComment ? _.take([parentCommentId].concat(parentComment.ancestorCommentIds), 20) : [],
+            };
+            return collections.comment.insertOne(newComment).then((result) => {
+                return getPost(newComment.postId, res);
+            });
+        })
     }).catch(next);
 });
 
@@ -227,32 +218,51 @@ db.then((dbThings) => {
     });
 });
 
+var getPost = function (postId, res) {
+    // Todo add this to more things to make reduce change of DOS
+    if (typeof postId !== 'string' && !(postId instanceof ObjectId)) {
+         throw new Error(`postId: ${postId} is not valid.`)
+    }
+    return collections.post.findOne({_id:  ObjectId(postId)}).then((post) => {
+        // add user to docs
+        console.log(post);
+        if (!post) {
+            throw new Error(`post ${postId} does not exist`);
+        }
+        return collections.comment.find({postId: post._id}).toArray().then((comments) => {
+            const commentById = _.keyBy(comments, "_id");
+            // Make sure everything has a comments key
+            for (let comment of comments) {
+                comment.comments = [];
+            }
+            // attach the comments to each other.
+            post.comments = [];
+            for (let comment of comments) {
+                if (comment.parentId) {
+                    // find the parents then add it to parent then make them combine.
+                    commentById[comment.parentId].comments.push(comment);
+                } else {
+                    // attach to array of top level comments
+                    post.comments.push(comment);
+                }
+            }
+            // expand everything to users
+            return buildUsersFromIds(comments.concat(post));
+        }).then(() => {
+            res.json(post);
+        });
+    })
+}
+
 // TODO make this get user id and email.
 var getPostCollection = function (req, res) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
     return collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
         //console.log(docs);
-
-        // http://stackoverflow.com/a/28069092
-        var uniqueUserIds = _(posts).map((posts) => String(posts.userId)).uniq().map((idString) => ObjectId(idString)).value();
-        //console.log(uniqueUserIds);
-        return collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
-            //console.log(users);
-            //console.log(docs);
-            // Add user data to the posts
-            // turn to dictionary with _id as key
-            users = _.keyBy(users, "_id");
-            var postUser = _.map(posts, (post) => { 
-                post.user = users[post.userId];
-                //post.myPost = (post.userId == req.session.mediaReactUserId);
-                post.user = userAsPublic(post.user);
-                return post;
-            }
-            );
-            //console.log(postUser);
-            res.json(postUser);
-        });
+        return buildUsersFromIds(posts);
+    }).then(posts => {
+        res.json(posts);
     });
 }
 
@@ -266,3 +276,19 @@ var getCatalogCollection = function (res) {
 var userAsPublic = function (user) {
     return _.pick(user, ['_id', 'avatarUrl', 'name']);
 }
+
+// Thing has userIds. They want to be displayed as public users.
+var buildUsersFromIds = function (things) {
+    // http://stackoverflow.com/a/28069092
+    var uniqueUserIds = _(things).map((thing) => String(thing.userId)).uniq().map((idString) => ObjectId(idString)).value();
+    return collections.user.find( { _id: { $in: uniqueUserIds}}).toArray().then((users) => {
+        users = _.keyBy(users, "_id");
+        _.forEach(things, (thing) => {
+            thing.user = users[thing.userId];
+            //post.myPost = (post.userId == req.session.mediaReactUserId);
+            thing.user = userAsPublic(thing.user);
+        });
+        return things;
+    });
+}
+

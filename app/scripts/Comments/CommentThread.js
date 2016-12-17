@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Comment from './Comment.js';
 
 
-export default class extends React.Component {
+export default class CommentThread extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,11 +11,17 @@ export default class extends React.Component {
     }
     
     render() {
+        var commentThread = this.props.comment.comments.map((comment) => {
+            return (
+                <CommentThread key={comment.id} comment={comment} parentComment={this.props.comment} onCommentSubmit={this.props.onCommentSubmit}/>
+            )
+        })
+        
         return (
             <div className="comment-thread">
-                <Comment comment={this.props.comment}/>
+                <Comment comment={this.props.comment} onCommentSubmit={this.props.onCommentSubmit}/>
                 <div>
-                    {this.props.comment.comments.map(comment => (<CommentThread key={comment.id} comment={comment} parentComment={this.props.comment}))}
+                    {commentThread}
                 </div>
             </div>
         );
