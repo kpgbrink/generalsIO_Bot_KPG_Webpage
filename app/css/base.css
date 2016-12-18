@@ -8,44 +8,53 @@
 }
 
 :global(.header-title) {
-    background-color: beige;
+    background-color: lightblue;
     padding: .1em;
 }
 
 :global(.header-title)>:global(.header-title-text) {
     text-align: center;
     font-family: monospace;
+    font-weight: bolder;
+    font-size: 50px;
+    text-decoration: underline;
 }
 
 :global(.header) {
     display: flex;
     justify-content: space-between;
     list-style: none;
-    background-color: bisque;
+    background-color: lightblue;
     align-items: flex-end;
 }
 
 :global(.header) li {
     align-content: bottom;
     width: 8em;
-    background-color: cadetblue;
+    background-color: lightgrey;
     text-align: center;
     margin-left: .75em;
+    border-style: solid;
+    border-width: 3px;
 }
 
 :global(.header)>:global(.links) {
     display: flex;
+    font-size: 25px;
 }
 
 :global(.header) li a {
     display: block;
     padding: .1em;
-    text-decoration: none;
-}
+    text-decoration: underline;
+    color: purple;
+  }
 
 :global(.header) li :global(.active) {
-    background-color: blue;
-    color: yellow;
+    background-color: yellow;
+    color: blue;
+    width: 8em;
+    font-weight: bolder;
 }
 
 :global(.header)>:global(.user) {

@@ -128,12 +128,7 @@ export default class extends React.Component {
         <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerBook()}>
         Books
         </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerMusic()}>
-        Music
-        </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerMovie()}>
-        Movies
-        </button>
+
         <CatalogTable data={this.state.data}/>
       </div>
     );
