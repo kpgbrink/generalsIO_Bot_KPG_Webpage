@@ -17,13 +17,12 @@ export default class extends React.Component{
         e.preventDefault();
         var title = this.state.title.trim();
         var text = this.state.text.trim();
-        var userName = window.userName;
-        var userAvatarUrl = window.userAvatarUrl;
+        var date = new Date().toISOString();
         var myPost = true;
         if (!text || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, text: text, user: {name: userName, avatarUrl: userAvatarUrl}, myPost: myPost });
+        this.props.onPostSubmit({title: title, text: text, date: date, user: this.props.user, myPost: myPost });
         this.setState({title: '', text: ''});
     }
     render() {

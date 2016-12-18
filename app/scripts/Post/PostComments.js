@@ -39,6 +39,7 @@ export default class extends React.Component {
         comment._id = `prefixId-${this.state.pendingId}`;
         comment.postId = this.state.post._id;
         comment.user = this.props.user;
+        comment.date = new Date().toISOString();
         comment.comments = [];
         if (parentComment == null) {
             this.state.post.comments.unshift(comment);
@@ -72,10 +73,10 @@ export default class extends React.Component {
         if (!post) {
             return (<div/>);
         }
+                    // <h1>Post Comments - {this.props.params.id}</h1>
         return (
             <div>
-                <h1>Post Comments - {this.props.params.id}</h1>
-                <Post id={post._id} title={post.title} key={post._id} userName={post.user.name} userAvatarUrl={post.user.avatarUrl} userId={post.userId} user={this.props.user}>
+                <Post id={post._id} title={post.title} key={post._id} userName={post.user.name} date={post.date} userAvatarUrl={post.user.avatarUrl} userId={post.userId} user={this.props.user}>
                 {post.text}</Post>
                 <CommentForm post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>
                 <CommentThreads post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>

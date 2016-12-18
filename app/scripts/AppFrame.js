@@ -17,12 +17,14 @@ export default class extends React.Component{
         return (
             <div>
                 <div className="header-title">
-                    <h1>Media React</h1>
+                    <h2 className="header-title-text">Media React</h2>
                 </div>
                 <ul className="header">
-                    <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
-                    <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>
-                    <li><Link to="/MyAccount" activeClassName="active">My Account</Link></li>
+                    <div className="links">
+                        <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
+                        <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>
+                        <li><Link to="/MyAccount" activeClassName="active">My Account</Link></li>
+                    </div>
                     <User onSignIn={this.props.onSignIn} onSignOut={this.props.onSignOut} user={this.props.user}/>
                 </ul>
                 <div className="content">

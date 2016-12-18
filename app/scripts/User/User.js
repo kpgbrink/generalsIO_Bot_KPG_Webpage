@@ -47,7 +47,7 @@ constructor(props) {
         console.log(this.state.signedIn);
         return (
             <div className="user">
-                <ProfileImage className="user-profile-image" profileUrl={this.props.user.avatarImageUrl}/>
+                <ProfileImage className="user-profile-image" profileUrl={this.props.user.avatarUrl}/>
                 <div className="user-info">
                     {this.renderSignIn()}
                     {this.renderUserName()}

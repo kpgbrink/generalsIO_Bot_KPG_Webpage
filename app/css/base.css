@@ -9,11 +9,12 @@
 
 :global(.header-title) {
     background-color: beige;
-    padding: .25em;
+    padding: .1em;
 }
 
-:global(.header-title)>h1 {
+:global(.header-title)>:global(.header-title-text) {
     text-align: center;
+    font-family: monospace;
 }
 
 :global(.header) {
@@ -29,6 +30,11 @@
     width: 8em;
     background-color: cadetblue;
     text-align: center;
+    margin-left: .75em;
+}
+
+:global(.header)>:global(.links) {
+    display: flex;
 }
 
 :global(.header) li a {
@@ -56,7 +62,6 @@
     width: 3.5em;
 }
 
-
 :global(.post-user) {
     display: flex;
     //border: .25em solid black;
@@ -67,3 +72,26 @@
     height: 1.5em;
 }
 
+:global(.comments-link), :global(.edit-link) {
+    text-decoration: none;
+}
+
+:global(.content) {
+    padding-left: 5em;
+    padding-top: 1em;
+}
+
+:global(.post) {
+    padding: .01em;
+    border-bottom: 2px solid black;
+}
+
+:global(.post-text) {
+    padding: .1em .2em .9em 1em;
+    background-color: azure;
+}
+
+:global(.post-user-name) {
+    font-weight: 700;
+    padding: .1em .1em .1em .3em;
+}

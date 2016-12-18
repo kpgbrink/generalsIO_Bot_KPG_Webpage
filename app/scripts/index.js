@@ -65,7 +65,7 @@ class RouterWrapper {
             user: {
                 id: googleUser.id,
                 name: googleUser.name,
-                avatarImageUrl: googleUser.avatarImageUrl
+                avatarUrl: googleUser.avatarImageUrl
             }
         });
     }
