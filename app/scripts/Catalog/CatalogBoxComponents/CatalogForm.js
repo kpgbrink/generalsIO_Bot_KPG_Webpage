@@ -7,6 +7,7 @@ export default class extends React.Component{
             catalog: '', title: '', author: '', year: ''
         }
     }
+
     handleCatalogChange(e) {
         this.setState({catalog: e.target.value});
     }
@@ -34,11 +35,11 @@ export default class extends React.Component{
     render() {
         return (
             <form className="catalog-form" onSubmit={this.handleSubmit.bind(this)}>
-                <select name="ui-widget ui-corner-all" placeholder="catalog.."
+                <select name="ui-widget ui-corner-all" type="text"
                 value={this.state.catalog} onChange={this.handleCatalogChange.bind(this)}>
-                  <option value="Book">Book</option>
-                  <option value="Movie">Movie</option>
-                  <option value="Music">Music</option>
+                <option value="Book">Book</option>
+                <option value="Movie">Movie</option>
+                <option value="Music">Music</option>
                 </select>
                 <input className="ui-widget ui-corner-all" type="text" placeholder="name..."
                     value={this.state.title} onChange={this.handleAuthorChange.bind(this)}

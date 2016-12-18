@@ -12,7 +12,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [
-      { title: 'Catalog', dataIndex: 'catalog', key: 'a', width: 100 },
+      { title: 'Catalog', dataIndex: 'catalog', key: 'a', width: 200 },
       { title: 'Title', dataIndex: 'title', key: 'b', width: 100 },
       { title: 'Author', dataIndex: 'author', key: 'c', width: 100 },
       { title: 'Year', dataIndex: 'year', key: 'd', width: 70 },
@@ -34,6 +34,7 @@ export default class extends React.Component {
     this.setState({ data });
   }
 
+//Getting an error saying ID is unknown when trying to do a handleDelete
   handleDelete() {
       $.ajax({
           url: API_CATALOG + "/" + this.props.params.id,
