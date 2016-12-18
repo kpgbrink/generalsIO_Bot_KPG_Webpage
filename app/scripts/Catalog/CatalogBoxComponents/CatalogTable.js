@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 const Table = require('rc-table');
 import Animate from 'rc-animate';
+import {API_CATALOG} from '../../global.js';
 
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
@@ -18,6 +19,7 @@ export default class extends React.Component {
       {
         title: 'Operations', dataIndex: '', key: 'e', render: (text, record) =>
         <a onClick={e => this.onDelete(record.key, e)} href="#">Delete</a>,
+        //<a onClick={this.handleDelete.bind(this)} href="#">Delete</a>,
       },
     ];
     this.state = {};
@@ -32,16 +34,18 @@ export default class extends React.Component {
     this.setState({ data });
   }
 
-  // onAdd() {
-  //   const data = [...this.state.data];
-  //   data.push({
-  //     a: 'Harry Potter',
-  //     b: 'JK Rowling',
-  //     c: '2001',
-  //     key: Date.now(),
-  //   });
-  //   this.setState({ data });
-  // }
+  handleDelete() {
+      $.ajax({
+          url: API_CATALOG + "/" + this.props.params.id,
+          type: 'DELETE',
+      })
+       .done(function(post){
+           this.context.router.push('/Post');
+       }.bind(this))
+       .fail(function(xhr, status, errorThrown) {
+           console.error(API_CATALOG, status, errorThrown.toString());
+       }.bind(this));
+  }
 
   getBodyWrapper(body) {
     return (

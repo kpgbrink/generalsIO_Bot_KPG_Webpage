@@ -35,6 +35,19 @@ export default class extends React.Component {
          }.bind(this));
     }
 
+    handleDelete() {
+        $.ajax({
+            url: API_POSTS + "/" + this.props.params.id,
+            type: 'DELETE',
+        })
+         .done(function(post){
+             this.context.router.push('/Post');
+         }.bind(this))
+         .fail(function(xhr, status, errorThrown) {
+             console.error(API_POSTS, status, errorThrown.toString());
+         }.bind(this));
+    }
+
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;

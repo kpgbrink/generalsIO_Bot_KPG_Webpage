@@ -28,7 +28,7 @@ export default class extends React.Component{
         if (!author || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, author: author, year: year});
+        this.props.onPostSubmit({catalog: catalog, title: title, author: author, year: year});
         this.setState({catalog: '', title: '', author: '', year: ''});
     }
     render() {

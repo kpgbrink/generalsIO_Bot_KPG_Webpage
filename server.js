@@ -291,4 +291,3 @@ var buildUsersFromIds = function (things) {
         return things;
     });
 }
-
