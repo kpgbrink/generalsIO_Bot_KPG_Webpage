@@ -12,7 +12,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [
-      { title: 'Catalog', dataIndex: 'catalog', key: 'a', width: 200 },
+      { title: 'Catalog', dataIndex: 'catalog', key: 'a', width: 100 },
       { title: 'Title', dataIndex: 'title', key: 'b', width: 100 },
       { title: 'Author', dataIndex: 'author', key: 'c', width: 100 },
       { title: 'Year', dataIndex: 'year', key: 'd', width: 70 },
@@ -59,7 +59,10 @@ export default class extends React.Component {
   render() {
     return (
       <div style={{ margin: 20 }}>
-        <h2>Movie Collection</h2>
+        <h2>Media Collection</h2>
+        <button class="ui-button ui-widget ui-corner-all" onClick={this.props.loadPostsFromServerBook}>
+        Books
+        </button>
         <Table
           columns={this.columns}
           data={this.props.data}

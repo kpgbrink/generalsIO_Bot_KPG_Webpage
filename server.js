@@ -99,9 +99,26 @@ app.get('/api/posts', function(req, res, next) {
     getPostCollection(req, res).catch(next);
 });
 
+//All catalog results
 app.get('/api/catalog', function(req, res, next) {
     getCatalogCollection(res).catch(next);
 });
+
+//Movie results
+app.get('/api/catalog/movie', function(req, res, next) {
+    getCatalogCollectionMovie(res).catch(next);
+});
+
+//Book results
+app.get('/api/catalog/book', function(req, res, next) {
+    getCatalogCollectionBook(res).catch(next);
+});
+
+//Music results
+app.get('/api/catalog/music', function(req, res, next) {
+    getCatalogCollectionMusic(res).catch(next);
+});
+
 
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
     // Check if logged in
@@ -266,8 +283,34 @@ var getPostCollection = function (req, res) {
     });
 }
 
+//This is were mongodb get queried
+//All data
 var getCatalogCollection = function (res) {
     return collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
+        //console.log(docs);
+        res.json(docs);
+    });
+}
+
+//MOVIES Query
+var getCatalogCollectionMovie = function (res) {
+    return collections.catalog.find({catalog: 'Movie' }, {sort: { title : 1 }}).toArray().then((docs) => {
+        //console.log(docs);
+        res.json(docs);
+    });
+}
+
+//Books query
+var getCatalogCollectionBook = function (res) {
+    return collections.catalog.find({catalog: 'Book'}, {sort: { title : 1 }}).toArray().then((docs) => {
+        //console.log(docs);
+        res.json(docs);
+    });
+}
+
+//Music query
+var getCatalogCollectionMusic = function (res) {
+    return collections.catalog.find({catalog: 'Music'}, {sort: { title : 1 }}).toArray().then((docs) => {
         //console.log(docs);
         res.json(docs);
     });

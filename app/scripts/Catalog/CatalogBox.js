@@ -7,6 +7,9 @@ import Animate from 'rc-animate';
 import CatalogTable from './CatalogBoxComponents/CatalogTable.js';
 import CatalogForm from './CatalogBoxComponents/CatalogForm.js';
 import {API_CATALOG} from '../global.js';
+import {API_CATALOG_BOOK} from '../global.js';
+import {API_CATALOG_MUSIC} from '../global.js';
+import {API_CATALOG_MOVIE} from '../global.js';
 
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
@@ -20,6 +23,8 @@ export default class extends React.Component {
         };
         this.allowAjaxResponse = true;
     }
+
+    //All posts
     loadPostsFromServer() {
         $.ajax({
             url: API_CATALOG,
@@ -35,16 +40,51 @@ export default class extends React.Component {
          }.bind(this));
     }
 
-    handleDelete() {
+    //Movie posts
+    loadPostsFromServerMovie() {
         $.ajax({
-            url: API_POSTS + "/" + this.props.params.id,
-            type: 'DELETE',
+            url: API_CATALOG_MOVIE,
+            dataType: 'json'
         })
-         .done(function(post){
-             this.context.router.push('/Post');
+         .done(function(result){
+             if (this.allowAjaxResponse) {
+                this.setState({data: result});
+             }
          }.bind(this))
          .fail(function(xhr, status, errorThrown) {
-             console.error(API_POSTS, status, errorThrown.toString());
+             console.error(this.props.url, status, errorThrown.toString());
+         }.bind(this));
+    }
+
+    //Book posts
+    loadPostsFromServerBook() {
+        $.ajax({
+            url: API_CATALOG_BOOK,
+            dataType: 'json'
+        })
+         .done(function(result){
+             if (this.allowAjaxResponse) {
+                this.setState({data: result});
+             }
+         }.bind(this))
+         .fail(function(xhr, status, errorThrown) {
+             console.error(this.props.url, status, errorThrown.toString());
+         }.bind(this));
+    }
+
+    //Music posts
+    loadPostsFromServerMusic() {
+        $.ajax({
+            url: API_CATALOG_MUSIC,
+            dataType: 'json'
+        })
+         .done(function(result){
+             if (this.allowAjaxResponse) {
+                this.setState({data: result});
+             }
+         }.bind(this))
+         .fail(function(xhr, status, errorThrown) {
+             console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
 
@@ -52,7 +92,6 @@ export default class extends React.Component {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
         var newPosts = [post].concat(posts);
-        console.log("new catalog: ", post);
         this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
             url: API_CATALOG,
@@ -83,7 +122,12 @@ export default class extends React.Component {
       <div style={{ margin: 20 }}>
         <h2>Add A Record To A Collection…</h2>
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
+        <br></br>
+        <button class="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerBook()}>
+        Books
+        </button>
         <CatalogTable data={this.state.data}/>
+
       </div>
     );
   }
