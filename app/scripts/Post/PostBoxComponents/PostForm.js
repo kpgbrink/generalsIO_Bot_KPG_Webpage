@@ -28,12 +28,15 @@ export default class extends React.Component{
     render() {
         return (
             <form className="post-form" onSubmit={this.handleSubmit.bind(this)}>
-                <input className="ui-widget ui-corner-all" type="text" placeholder="name..."
-                    value={this.state.title} onChange={this.handleAuthorChange.bind(this)}
+                <input className="ui-widget ui-corner-all" type="text" placeholder="title..."
+                    value={this.state.title} onChange={this.handleAuthorChange.bind(this)} size="90"
                 />
-                <input className="ui-widget ui-corner-all" type="text" placeholder="post..."
+                <br/>
+                <textarea className="ui-widget ui-corner-all" type="text" placeholder="post..."
                     value={this.state.text} onChange={this.handleTextChange.bind(this)}
+                    cols="91"
                 />
+                <br/>
                 <input className="ui-button ui-widget ui-corner-all" type="submit" value="Post" />
             </form>
         );

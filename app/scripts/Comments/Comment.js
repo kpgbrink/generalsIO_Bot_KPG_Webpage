@@ -1,4 +1,5 @@
 import React from 'react';
+import Remarkable from 'remarkable';
 import CommentForm from './CommentForm.js';
 import TimeAgo from 'react-timeago';
 
@@ -8,6 +9,12 @@ export default class extends React.Component {
         this.state = {
             showCommentForm: false,
         };
+    }
+    
+    rawMarkup() {
+        var md = new Remarkable({html: true});
+        var rawMarkup = md.render(this.props.comment.text.toString());
+        return { __html: rawMarkup };
     }
     
     displayResponse() {
@@ -30,13 +37,13 @@ export default class extends React.Component {
     render() {
         return (
             <div className="comment">
-                <div className="user-information">
-                    <img className="comment-user-image" src={this.props.comment.user.avatarUrl} alt=""/>
+                <img className="comment-user-image" src={this.props.comment.user.avatarUrl} alt=""/>
+                <div className="comment-no-image">
                     <p className="comment-user-name"> {this.props.comment.user.name} </p>
+                    <p className="comment-text" dangerouslySetInnerHTML={this.rawMarkup()} />
+                    <TimeAgo date={this.props.comment.date}/><br/>
+                    {this.displayResponse()}
                 </div>
-                <p className="comment-text"> {this.props.comment.text} </p>
-                <TimeAgo date={this.props.comment.date}/><br/>
-                {this.displayResponse()}
             </div>
         );
     }

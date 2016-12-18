@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Redirect, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, Redirect, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
 
 import PostBox from './Post/PostBox.js';
 import PostEdit from './Post/PostEdit.js';
@@ -38,6 +38,7 @@ class RouterWrapper {
         // Passing props when using react-router http://stackoverflow.com/a/38907715/2948122
         ReactDOM.render(<Router history={browserHistory}>
                 <Route path="/" component={(props) => (<AppFrame onSignIn={this.handleSignIn.bind(this)} onSignOut={this.handleSignOut.bind(this)} user={this.state.user}{...props}/>)}>
+                    <IndexRedirect to="/Post"/>
                     <Route path="Post">
                         <Route component={(props) => (<PostBox user={this.state.user}{...props}/>)}>
                             <IndexRoute/>

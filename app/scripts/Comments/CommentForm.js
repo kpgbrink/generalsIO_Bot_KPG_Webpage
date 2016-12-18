@@ -1,4 +1,5 @@
 import React from 'react';
+import CommentTextField from './CommentTextField.js';
 
 export default class extends React.Component{
     constructor(props) {
@@ -25,9 +26,7 @@ export default class extends React.Component{
     render() {
         return (
             <form className="comment-form" onSubmit={this.handleSubmit.bind(this)}>
-                <textarea ref={input => {if(input!=null){input.focus();}}} className="ui-widget ui-corner-all" type="text" placeholder="comment..."
-                    value={this.state.text} onChange={this.handleTextChange.bind(this)}
-                />
+                <CommentTextField onChange={this.handleTextChange.bind(this)}/>
                 <button className="ui-button ui-widget ui-corner-all" type="submit">Comment</button>
             </form>
         );

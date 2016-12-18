@@ -1,5 +1,5 @@
 :global(.comment-thread) {
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
 * {
@@ -94,4 +94,17 @@
 :global(.post-user-name) {
     font-weight: 700;
     padding: .1em .1em .1em .3em;
+}
+
+:global(.comment) {
+    display: flex;
+}
+
+:global(.comment-thread) {
+    border: 2px solid yellow;
+}
+
+:global(.comment-user-image) {
+    height: 2em;
+    width: 2em;
 }
