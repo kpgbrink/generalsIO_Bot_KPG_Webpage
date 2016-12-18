@@ -120,15 +120,23 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div style={{ margin: 20 }}>
+      <div className="catalog" style={{ margin: 20 }}>
         <h2>Add A Record To A Collection…</h2>
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <br></br>
         Choose your collection:
-        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerBook()}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerBook()}}>
         Books
         </button>
-
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerMusic()}}>
+        Music
+        </button>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerMovie()}}>
+        Movies
+        </button>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServer()}}>
+        All
+        </button>
         <CatalogTable data={this.state.data}/>
       </div>
     );
