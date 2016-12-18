@@ -12,6 +12,22 @@ constructor(props) {
         this.state = {
         }
     }
+    
+    renderSignIn() {
+        if (this.props.user.id == null) {
+            return (
+                <SignIn onSignIn={this.props.onSignIn}/>
+            );
+        }
+    }
+    
+    renderUserName() {
+        if (this.props.user.name) {
+            return (
+                <h2 className="user-name">{this.props.user.name}</h2>
+            );
+        }
+    }
         
     renderSignOut() {
         // Only render signOut if logged in
@@ -32,9 +48,11 @@ constructor(props) {
         return (
             <div className="user">
                 <ProfileImage className="user-profile-image" profileUrl={this.props.user.avatarImageUrl}/>
-                <SignIn onSignIn={this.props.onSignIn}/>
-                <h2 className="user-name">{this.props.user.name}</h2>
-                {this.renderSignOut()}
+                <div className="user-info">
+                    {this.renderSignIn()}
+                    {this.renderUserName()}
+                    {this.renderSignOut()}
+                </div>
             </div>
             );
     }

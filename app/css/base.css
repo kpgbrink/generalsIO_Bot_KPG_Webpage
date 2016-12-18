@@ -1,70 +1,69 @@
-body {
-  background: #fff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
-  margin: 0;
-  padding: 30px;
-}
-
-a {
-  color: #4183c4;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-code {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
-  font-size: 12px;
-  margin: 0 2px;
-  padding: 0 5px;
-}
-
-h1, h2, h3, h4 {
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-}
-
-h1 {
-  border-bottom: 1px solid #ddd;
-  font-size: 2.5em;
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-}
-
-h2 {
-  border-bottom: 1px solid #eee;
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.5em;
-}
-
-h4 {
-  font-size: 1.2em;
-}
-
-p, ul {
-  margin: 15px 0;
-}
-
-ul {
-  padding-left: 30px;
-}
-
 :global(.comment-thread) {
     margin-left: 2em;
 }
 
 * {
-    border: 2pt solid gold;
+    padding: 0em;
+    margin: 0em;
 }
+
+:global(.header-title) {
+    background-color: beige;
+    padding: .25em;
+}
+
+:global(.header-title)>h1 {
+    text-align: center;
+}
+
+:global(.header) {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    background-color: bisque;
+    align-items: flex-end;
+}
+
+:global(.header) li {
+    align-content: bottom;
+    width: 8em;
+    background-color: cadetblue;
+    text-align: center;
+}
+
+:global(.header) li a {
+    display: block;
+    padding: .1em;
+    text-decoration: none;
+}
+
+:global(.header) li :global(.active) {
+    background-color: blue;
+    color: yellow;
+}
+
+:global(.header)>:global(.user) {
+    display: flex;
+    height: 3.5em;
+}
+
+:global(.header)>:global(.user)>:global(.user-info) {
+    height: 3.5em;
+}
+
+:global(.user)>:global(.profile-image) {
+    height: 3.5em;
+    width: 3.5em;
+}
+
+
+:global(.post-user) {
+    display: flex;
+    //border: .25em solid black;
+}
+
+:global(.post-user)>:global(.post-user-avatar-url) {
+    width: 1.5em;
+    height: 1.5em;
+}
+

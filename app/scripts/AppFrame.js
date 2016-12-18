@@ -16,7 +16,9 @@ export default class extends React.Component{
         console.log('rendering AppFrame')
         return (
             <div>
-                <h1>Media React</h1>
+                <div className="header-title">
+                    <h1>Media React</h1>
+                </div>
                 <ul className="header">
                     <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
                     <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>

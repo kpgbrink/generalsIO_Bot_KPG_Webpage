@@ -33,7 +33,7 @@ export default class extends React.Component{
     }
     render() {
         return (
-            <form className="CatalogForm" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="catalog-form" onSubmit={this.handleSubmit.bind(this)}>
                 <select name="ui-widget ui-corner-all" placeholder="catalog.."
                 value={this.state.catalog} onChange={this.handleCatalogChange.bind(this)}>
                   <option value="Book">Book</option>
