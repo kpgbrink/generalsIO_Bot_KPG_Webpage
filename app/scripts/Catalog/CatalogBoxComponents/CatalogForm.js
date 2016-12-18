@@ -4,12 +4,17 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            catalog: '', title: '', author: '', year: ''
+            catalog: 'Book', title: '', author: '', year: ''
         }
     }
 
     handleCatalogChange(e) {
+        console.log("target value: ", (typeof e.target.value));
+        console.log("target type: ", e.target.value)
+        console.log("e: ", e);
+        
         this.setState({catalog: e.target.value});
+        console.log("state of catalog", this.state.catalog);
     }
     handleAuthorChange(e) {
         this.setState({title: e.target.value});
@@ -23,6 +28,7 @@ export default class extends React.Component{
     handleSubmit(e) {
         e.preventDefault();
         var catalog = this.state.catalog.trim();
+        console.log("catalog: ", catalog)
         var title = this.state.title.trim();
         var author = this.state.author.trim();
         var year = this.state.year.trim();
@@ -30,13 +36,12 @@ export default class extends React.Component{
             return;
         }
         this.props.onPostSubmit({catalog: catalog, title: title, author: author, year: year});
-        this.setState({catalog: '', title: '', author: '', year: ''});
+        this.setState({title: '', author: '', year: ''});
     }
     render() {
         return (
             <form className="catalog-form" onSubmit={this.handleSubmit.bind(this)}>
-                <select name="ui-widget ui-corner-all" type="text"
-                value={this.state.catalog} onChange={this.handleCatalogChange.bind(this)}>
+                <select name="ui-widget ui-corner-all" type="text" onChange= {this.handleCatalogChange.bind(this)}>
                 <option value="Book">Book</option>
                 <option value="Movie">Movie</option>
                 <option value="Music">Music</option>

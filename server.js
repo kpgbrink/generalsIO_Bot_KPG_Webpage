@@ -109,7 +109,7 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
         return res.status(403).json({});
     }
     var newCatalog = {
-        collection: req.body.collection,
+        catalog: req.body.catalog,
         title: req.body.title,
         author: req.body.author,
         year: req.body.year,

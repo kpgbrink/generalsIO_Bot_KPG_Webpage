@@ -52,6 +52,7 @@ export default class extends React.Component {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
         var newPosts = [post].concat(posts);
+        console.log("new catalog: ", post);
         this.setState({data: newPosts, pendingId: this.state.pendingId+1});
         $.ajax({
             url: API_CATALOG,
