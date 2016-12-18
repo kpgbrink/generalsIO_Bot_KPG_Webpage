@@ -11,8 +11,8 @@ constructor(props) {
     render() {
                 console.log(this.state.signedIn);
         return (
-            <div className="my-account">
-                <p> This is my account </p>
+            <div className="about-page">
+                <p> This is the about page </p>
             </div>
             );
     }

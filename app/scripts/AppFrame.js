@@ -23,6 +23,7 @@ export default class extends React.Component{
                     <div className="links">
                         <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
                         <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>
+                        <li><Link to="/About" activeClassName="active">About</Link></li>
                         <li><Link to="/MyAccount" activeClassName="active">My Account</Link></li>
                     </div>
                     <User onSignIn={this.props.onSignIn} onSignOut={this.props.onSignOut} user={this.props.user}/>

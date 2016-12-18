@@ -13,6 +13,8 @@ import MyAccount from './MyAccount/MyAccount.js';
 
 import AppFrame from './AppFrame.js';
 
+import About from './About/About.js';
+
 import '../css/base.css';
 
 const defaultUser = {
@@ -51,6 +53,7 @@ class RouterWrapper {
                         </Route>
                     </Route>
                     <Route path="Catalog" component={Catalog}/>
+                    <Route path="About" component={About}/>
                     <Route path="myAccount" component={MyAccount}/>
                 </Route>
             </Router>, document.getElementById('content'));
