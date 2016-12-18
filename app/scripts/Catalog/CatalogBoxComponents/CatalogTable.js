@@ -60,9 +60,6 @@ export default class extends React.Component {
     return (
       <div style={{ margin: 20 }}>
         <h2>Media Collection</h2>
-        <button class="ui-button ui-widget ui-corner-all" onClick={this.props.loadPostsFromServerBook}>
-        Books
-        </button>
         <Table
           columns={this.columns}
           data={this.props.data}
