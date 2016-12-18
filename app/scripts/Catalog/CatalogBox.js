@@ -117,17 +117,24 @@ export default class extends React.Component {
         this.allowAjaxResponse = false;
     }
 
+
   render() {
     return (
       <div style={{ margin: 20 }}>
         <h2>Add A Record To A Collection…</h2>
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <br></br>
-        <button class="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerBook()}>
+        Choose your collection:
+        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerBook()}>
         Books
         </button>
+        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerMusic()}>
+        Music
+        </button>
+        <button className="ui-button ui-widget ui-corner-all" onClick={this.loadPostsFromServerMovie()}>
+        Movies
+        </button>
         <CatalogTable data={this.state.data}/>
-
       </div>
     );
   }
