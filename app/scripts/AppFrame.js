@@ -19,11 +19,14 @@ export default class extends React.Component{
                     <h2 className="header-title-text">Media React</h2>
                 </div>
                 <ul className="header">
-                    <div className="links">
-                        <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
-                        <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>
-                        <li><Link to="/About" activeClassName="active">About</Link></li>
-                        <li><Link to="/MyAccount" activeClassName="active">My Account</Link></li>
+                    <div className="header-left">
+                        <img className="media-react-image" alt="Media React" src="/images/mediaReact.png"/>
+                        <div className="links">
+                            <li><IndexLink to="/Post" activeClassName="active">Post</IndexLink></li>
+                            <li><Link to="/Catalog" activeClassName="active">Catalog</Link></li>
+                            <li><Link to="/About" activeClassName="active">About</Link></li>
+                            <li><Link to="/MyAccount" activeClassName="active">My Account</Link></li>
+                        </div>
                     </div>
                     <User onSignIn={this.props.onSignIn} onSignOut={this.props.onSignOut} user={this.props.user}/>
                 </ul>
