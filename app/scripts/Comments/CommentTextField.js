@@ -8,9 +8,6 @@ export default class extends React.Component{
         }
     }
    
-    handleTextChange(e) {
-        this.setState({text: e.target.value});
-    }
     
     handleRef(input) {
         if (input && !this.state.hasBeenFocused) {
@@ -24,7 +21,7 @@ export default class extends React.Component{
     render() {
         return (
                 <textarea ref={this.handleRef.bind(this)} className="ui-widget ui-corner-all" type="text" placeholder="comment..."
-                    value={this.state.text} onChange={this.props.onChange}
+                    value={this.props.text} onChange={this.props.onChange}
                 />
         );
     }

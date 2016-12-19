@@ -132,22 +132,27 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
 // TODO FINISH THIS
 app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
     collections.catalog.deleteOne(
-        {'_id': ObjectId(req.params.id), userId: ObjectId(req.session.mediaReactUserId)}).then((result) => {
+        {'_id': ObjectId(req.params.id)}).then((result) => {
             if (result.deletedCount == 0) {
                 res.status(403).end();
                 return;
             }
-            return getCatalogCollection(req, res);
+            return getCatalogCollection(res);
         }).catch(next);
 });
 
 app.post('/api/posts', authorizedTo(), function(req, res, next) {
     var newPost = {
+        type: req.body.type,
         date: new Date(),
         title: req.body.title,
         text: req.body.text,
         userId: ObjectId(req.session.mediaReactUserId),
     };
+    if (newPost.type == "url") {
+        // Todo validate url
+        newPost.url = req.body.url;
+    }
     collections.post.insertOne(newPost).then((result) => {
         return getPostCollection(req, res);
     }).catch(next);
@@ -277,7 +282,7 @@ var getPostCollection = function (req, res) {
 //This is were mongodb get queried
 //All data
 var getCatalogCollection = function (res) {
-    return collections.catalog.find({}, {sort: { title : 1 }}).toArray().then((docs) => {
+    return collections.catalog.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
         //console.log(docs);
         res.json(docs);
     });

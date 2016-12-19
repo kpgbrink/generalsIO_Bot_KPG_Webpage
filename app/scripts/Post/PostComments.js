@@ -76,7 +76,7 @@ export default class extends React.Component {
                     // <h1>Post Comments - {this.props.params.id}</h1>
         return (
             <div>
-                <Post id={post._id} title={post.title} key={post._id} userName={post.user.name} date={post.date} userAvatarUrl={post.user.avatarUrl} userId={post.userId} user={this.props.user}>
+                <Post post={post} user={this.props.user}>
                 {post.text}</Post>
                 <CommentForm post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>
                 <CommentThreads post={post} onCommentSubmit={this.handleCommentSubmit.bind(this)}/>

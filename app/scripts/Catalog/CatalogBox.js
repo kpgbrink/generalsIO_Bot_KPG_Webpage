@@ -78,6 +78,28 @@ export default class extends React.Component {
              alert('Please Login');
          }.bind(this));
     }
+    
+    //To Do: Fix This
+    onDelete(record, e) {
+
+        this.setState({ data: this.state.data.filter(iterRecord => record._id !== iterRecord._id)});
+        
+        this.handleDelete(record._id);
+    }
+
+    handleDelete(id) {
+        $.ajax({
+          url: API_CATALOG + "/" + id,
+          type: 'DELETE',
+        })
+        .done(function(result){
+           this.setState({data: result});
+        }.bind(this))
+        .fail(function(xhr, status, errorThrown) {
+           console.error(API_CATALOG, status, errorThrown.toString());
+        }.bind(this));
+    }
+
     componentDidMount() {
         this.loadPostsFromServer();
         // No more interval
@@ -112,7 +134,7 @@ export default class extends React.Component {
         All
         </button>
         </div>
-        <CatalogTable data={this.state.data}/>
+        <CatalogTable onDelete={this.onDelete.bind(this)} data={this.state.data}/>
       </div>
     );
   }

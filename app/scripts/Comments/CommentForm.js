@@ -5,11 +5,8 @@ export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            title: '', text: ''
+            text: ''
         }
-    }
-    handleAuthorChange(e) {
-        this.setState({title: e.target.value});
     }
     handleTextChange(e) {
         this.setState({text: e.target.value});
@@ -26,7 +23,7 @@ export default class extends React.Component{
     render() {
         return (
             <form className="comment-form" onSubmit={this.handleSubmit.bind(this)}>
-                <CommentTextField onChange={this.handleTextChange.bind(this)}/>
+                <CommentTextField text={this.state.text} onChange={this.handleTextChange.bind(this)}/>
                 <button className="ui-button ui-widget ui-corner-all" type="submit">Comment</button>
             </form>
         );

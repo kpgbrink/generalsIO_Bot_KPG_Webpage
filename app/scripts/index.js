@@ -54,7 +54,7 @@ class RouterWrapper {
                     </Route>
                     <Route path="Catalog" component={Catalog}/>
                     <Route path="About" component={About}/>
-                    <Route path="myAccount" component={MyAccount}/>
+                    <Route path="MyAccount" component={(props) => (<MyAccount user={this.state.user}{...props}/>)}/>
                 </Route>
             </Router>, document.getElementById('content'));
     }

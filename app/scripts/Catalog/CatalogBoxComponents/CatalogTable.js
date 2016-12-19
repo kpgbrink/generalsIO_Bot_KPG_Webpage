@@ -18,35 +18,19 @@ export default class extends React.Component {
       { title: 'Year', dataIndex: 'year', key: 'd', width: 70 },
       {
         title: 'Operations', dataIndex: '', key: 'e', render: (text, record) =>
-        //<a onClick={e => this.onDelete(record.key, e)} href="#">Delete</a>,
-        <a onClick={this.handleDelete.bind(this)} href="#">Delete</a>,
+        <a onClick={e => {
+            e.preventDefault(); 
+            this.props.onDelete(record, e)
+            }
+        } href="#">Delete</a>,
+        //<a onClick={e => this.handleDelete(record, e)} href="#">Delete</a>,
       },
     ];
     this.state = {};
 	this.allowAjaxResponse = true;
   }
 
-//To Do: Fix This
-  onDelete(key, e) {
-    console.log('Delete', key);
-    e.preventDefault();
-    const data = this.state.data.filter(item => item.key !== key);
-    this.setState({ data });
-  }
 
-//Getting an error saying ID is unknown when trying to do a handleDelete
-  handleDelete() {
-      $.ajax({
-          url: API_CATALOG + "/" + this.props.params.id,
-          type: 'DELETE',
-      })
-       .done(function(post){
-           this.context.router.push('/Post');
-       }.bind(this))
-       .fail(function(xhr, status, errorThrown) {
-           console.error(API_CATALOG, status, errorThrown.toString());
-       }.bind(this));
-  }
 
   getBodyWrapper(body) {
     return (

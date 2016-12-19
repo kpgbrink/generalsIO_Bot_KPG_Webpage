@@ -8,7 +8,7 @@ export default class extends React.Component{
             url: '', title: '', text: ''
         }
     }
-    handleAuthorChange(e) {
+    handleTitleChange(e) {
         this.setState({title: e.target.value});
     }
     handleTextChange(e) {
@@ -22,12 +22,13 @@ export default class extends React.Component{
         var title = this.state.title.trim();
         var text = this.state.text.trim();
         var type = this.state.type.trim();
+        var url = this.state.url.trim();
         var date = new Date().toISOString();
         var myPost = true;
         if (!text || !title) {
             return;
         }
-        this.props.onPostSubmit({title: title, text: text, date: date, user: this.props.user, myPost: myPost, type: type });
+        this.props.onPostSubmit({title: title, text: text, date: date, user: this.props.user, myPost: myPost, type: type, url: url});
         this.setState({url: '', title: '', text: ''});
     }
     
@@ -58,7 +59,7 @@ export default class extends React.Component{
                 
                 <form className="post-form" onSubmit={this.handleSubmit.bind(this)}>
                     <input className="ui-widget ui-corner-all" type="text" placeholder="title..."
-                        value={this.state.title} onChange={this.handleAuthorChange.bind(this)} size="90"
+                        value={this.state.title} onChange={this.handleTitleChange.bind(this)} size="90"
                     />
                     <br/>
                     {this.displayLinkInput()}
