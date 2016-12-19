@@ -57,7 +57,7 @@ export default class extends React.Component {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
-    
+
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
@@ -95,13 +95,13 @@ export default class extends React.Component {
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <br></br>
         Choose your collection:
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("book")}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Book")}}>
         Books
         </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("music")}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Music")}}>
         Music
         </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("movie")}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Movie")}}>
         Movies
         </button>
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServer()}}>

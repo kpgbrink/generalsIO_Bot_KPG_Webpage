@@ -14,7 +14,6 @@ const _ = require('lodash');
 const APP_PATH = path.join(__dirname, 'dist');
 
 var collections;
-var catalog;
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -106,7 +105,7 @@ app.get('/api/catalog', function(req, res, next) {
 });
 
 app.get('/api/catalog/:catalog', function(req, res, next) {
-    catalog = req.params.catalog;
+    var catalog = req.params.catalog;
     getCatalogCollection(res, catalog).catch(next);
 });
 
