@@ -175,3 +175,16 @@
     box-sizing: border-box;
 }
 
+:global(.catalog) {
+
+}
+
+:global(.catalog_buttons) {
+  text-align: left;
+}
+
+:global(.divider){
+  width: 20px;
+  height: auto;
+  display: inline-block;
+}

@@ -137,7 +137,7 @@ app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(req, res);
+            return getCatalogCollection(req, res);
         }).catch(next);
 });
 
@@ -290,30 +290,6 @@ var getCatalogCollectionType = function (res, catalog) {
         res.json(docs);
     });
 }
-
-// //MOVIES Query
-// var getCatalogCollectionMovie = function (res) {
-//     return collections.catalog.find({catalog: 'Movie' }, {sort: { title : 1 }}).toArray().then((docs) => {
-//         //console.log(docs);
-//         res.json(docs);
-//     });
-// }
-//
-// //Books query
-// var getCatalogCollectionBook = function (res) {
-//     return collections.catalog.find({catalog: 'Book'}, {sort: { title : 1 }}).toArray().then((docs) => {
-//         //console.log(docs);
-//         res.json(docs);
-//     });
-// }
-//
-// //Music query
-// var getCatalogCollectionMusic = function (res) {
-//     return collections.catalog.find({catalog: 'Music'}, {sort: { title : 1 }}).toArray().then((docs) => {
-//         //console.log(docs);
-//         res.json(docs);
-//     });
-// }
 
 var userAsPublic = function (user) {
     return _.pick(user, ['_id', 'avatarUrl', 'name']);

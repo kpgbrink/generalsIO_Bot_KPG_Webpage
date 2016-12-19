@@ -18,8 +18,8 @@ export default class extends React.Component {
       { title: 'Year', dataIndex: 'year', key: 'd', width: 70 },
       {
         title: 'Operations', dataIndex: '', key: 'e', render: (text, record) =>
-        <a onClick={e => this.onDelete(record.key, e)} href="#">Delete</a>,
-        //<a onClick={this.handleDelete.bind(this)} href="#">Delete</a>,
+        //<a onClick={e => this.onDelete(record.key, e)} href="#">Delete</a>,
+        <a onClick={this.handleDelete.bind(this)} href="#">Delete</a>,
       },
     ];
     this.state = {};
