@@ -104,9 +104,10 @@ app.get('/api/catalog', function(req, res, next) {
     getCatalogCollection(res).catch(next);
 });
 
+//
 app.get('/api/catalog/:catalog', function(req, res, next) {
     var catalog = req.params.catalog;
-    getCatalogCollection(res, catalog).catch(next);
+    getCatalogCollectionType(res, catalog).catch(next);
 });
 
 // //Movie results
