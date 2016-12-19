@@ -1,6 +1,11 @@
 import React from 'react';
 import CommentTextField from './CommentTextField.js';
 
+/*CommentFrom Component
+*
+*Handles the comment text on change and also displays the comment button
+*/
+
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -11,6 +16,7 @@ export default class extends React.Component{
     handleTextChange(e) {
         this.setState({text: e.target.value});
     }
+    //Sets the state with the new entered text and calls on Commentsubmit
     handleSubmit(e) {
         e.preventDefault();
         var text = this.state.text.trim();

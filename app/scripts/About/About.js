@@ -1,5 +1,8 @@
 import React from 'react';
 
+/*About Component
+*Displays the About page with text
+*/
 
 export default class extends React.Component{
 constructor(props) {

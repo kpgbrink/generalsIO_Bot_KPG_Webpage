@@ -7,6 +7,11 @@ import CommentForm from '../Comments/CommentForm.js';
 
 import { API_POSTS } from '../global.js';
 
+/*PostComment Component
+*Handles the posting for a new post/comment
+*
+*/
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +24,7 @@ export default class extends React.Component {
         this.loadPostData();
     }
     componentWillUnmount() {
-        this.allowAjaxResponse = false;  
+        this.allowAjaxResponse = false;
     }
     componentDidUpdate(prevProps) {
         if (this.props.params.id != prevProps.params.id) {
@@ -33,7 +38,8 @@ export default class extends React.Component {
             }
         }.bind(this));
     }
-    
+
+    //Post to database and change state when submitting post
     handleCommentSubmit(comment, parentComment) {
         comment.parentCommentId = (parentComment || {})._id;
         comment._id = `prefixId-${this.state.pendingId}`;
@@ -66,7 +72,7 @@ export default class extends React.Component {
              alert('Please Login to Comment');
          }.bind(this));
     }
-    
+
     render() {
         var post = this.state.post;
         console.log(post);

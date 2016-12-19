@@ -1,5 +1,10 @@
 import React from 'react';
 
+/*CatalogForm Component
+*
+*Displays the fields to enter a new record into the databse
+*/
+
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -8,23 +13,28 @@ export default class extends React.Component{
         }
     }
 
+    //
     handleCatalogChange(e) {
         console.log("target value: ", (typeof e.target.value));
         console.log("target type: ", e.target.value)
         console.log("e: ", e);
-        
+
         this.setState({catalog: e.target.value});
         console.log("state of catalog", this.state.catalog);
     }
+    //Sets state to value in Title field
     handleAuthorChange(e) {
         this.setState({title: e.target.value});
     }
+    //Sets state to value in author field
     handleTextChange(e) {
         this.setState({author: e.target.value});
     }
+    //Sets state to value in year field
     handleYearChange(e) {
         this.setState({year: e.target.value});
     }
+    //Calls onPostSubmit method when hitting submit button
     handleSubmit(e) {
         e.preventDefault();
         var catalog = this.state.catalog.trim();

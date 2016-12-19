@@ -3,6 +3,11 @@ import Remarkable from 'remarkable';
 import CommentForm from './CommentForm.js';
 import TimeAgo from 'react-timeago';
 
+/*Comment Component
+*
+*Displays the user image, name and time along with the comment
+*/
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -10,19 +15,20 @@ export default class extends React.Component {
             showCommentForm: false,
         };
     }
-    
+
     rawMarkup() {
         var md = new Remarkable({html: true});
         var rawMarkup = md.render(this.props.comment.text.toString());
         return { __html: rawMarkup };
     }
-    
+
+//Once comment is submitted this displayes the posted response/comment
     displayResponse() {
         console.log("props comment: ", this.props.comment)
         if (this.state.showCommentForm) {
             return (
                 <div className="comment-reply">
-                    <CommentForm onCommentSubmit={(newComment) => { 
+                    <CommentForm onCommentSubmit={(newComment) => {
                         this.setState({showCommentForm: false});
                         return this.props.onCommentSubmit(newComment, this.props.comment)
                     }} />
@@ -33,7 +39,7 @@ export default class extends React.Component {
             return <a href='#' onClick={(e) => { e.preventDefault(); this.setState({showCommentForm: true});}}>Reply</a>
         }
     }
-    
+
     render() {
         return (
             <div className="comment">

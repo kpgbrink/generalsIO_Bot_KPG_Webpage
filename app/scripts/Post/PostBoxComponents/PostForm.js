@@ -1,5 +1,10 @@
 import React from 'react';
 
+/*Component that renders the form to enter a post
+*
+*
+*/
+
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -17,6 +22,8 @@ export default class extends React.Component{
     handleUrlChange(e) {
         this.setState({url: e.target.value});
     }
+
+    //Once submitted it set state and call onPostSubmit
     handleSubmit(e) {
         e.preventDefault();
         var title = this.state.title.trim();
@@ -31,12 +38,12 @@ export default class extends React.Component{
         this.props.onPostSubmit({title: title, text: text, date: date, user: this.props.user, myPost: myPost, type: type, url: url});
         this.setState({url: '', title: '', text: ''});
     }
-    
+
     handleTypeChange(e, type) {
         e.preventDefault();
         this.setState({type: type});
     }
-    
+
     displayLinkInput() {
         if (this.state.type == "url") {
             return (
@@ -47,16 +54,16 @@ export default class extends React.Component{
             );
         }
     }
-    
+
     render() {
         return (
             <div>
                 <ul>
-                    {[{type: 'text', name: 'Text', }, {type: 'url', name: 'Link'} ].map((ob) => 
+                    {[{type: 'text', name: 'Text', }, {type: 'url', name: 'Link'} ].map((ob) =>
                         <li key={ob.type}><a href='#' onClick={(e)=>this.handleTypeChange(e, ob.type)}>{ob.name}</a></li>
                      )}
                 </ul>
-                
+
                 <form className="post-form" onSubmit={this.handleSubmit.bind(this)}>
                     <input className="ui-widget ui-corner-all" type="text" placeholder="title..."
                         value={this.state.title} onChange={this.handleTitleChange.bind(this)} size="90"

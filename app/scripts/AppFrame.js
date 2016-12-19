@@ -2,6 +2,10 @@ import React from 'react';
 import User from './User/User.js';
 import { IndexLink, Link} from 'react-router';
 
+/*
+*Static Frame that is always present.
+*Includes the Header and link to other components
+*/
 
 export default class extends React.Component{
     constructor(props) {

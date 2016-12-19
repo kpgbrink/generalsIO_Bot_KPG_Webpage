@@ -4,6 +4,12 @@ import $ from 'jquery';
 const Table = require('rc-table');
 import Animate from 'rc-animate';
 
+/*CatalogBox Component
+*
+*Component renders the Catalogtable and CatalogForm
+*Handles posts and deleted of catalog records
+*/
+
 import CatalogTable from './CatalogBoxComponents/CatalogTable.js';
 import CatalogForm from './CatalogBoxComponents/CatalogForm.js';
 import {API_CATALOG} from '../global.js';
@@ -27,7 +33,7 @@ export default class extends React.Component {
         this.allowAjaxResponse = true;
     }
 
-    //All posts
+    //Loads ever post from the database
     loadPostsFromServer() {
         $.ajax({
             url: API_CATALOG,
@@ -43,6 +49,8 @@ export default class extends React.Component {
          }.bind(this));
     }
 
+    //Loads posts based on the type of catalog
+    //Parameter is the type of catalog (ex. Movie, Book, Music)
     loadPostsFromServerType(type) {
         $.ajax({
             url: API_CATALOG_TYPE + "/" + type,
@@ -58,6 +66,7 @@ export default class extends React.Component {
          }.bind(this));
     }
 
+    //Post new record to the database
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
@@ -78,15 +87,16 @@ export default class extends React.Component {
              alert('Please Login');
          }.bind(this));
     }
-    
-    //To Do: Fix This
+
+    //Deletes record from the database by calling handleDelete after it gets the correct record ID
     onDelete(record, e) {
 
         this.setState({ data: this.state.data.filter(iterRecord => record._id !== iterRecord._id)});
-        
+
         this.handleDelete(record._id);
     }
 
+    //Deletes record from database using the correct record ID
     handleDelete(id) {
         $.ajax({
           url: API_CATALOG + "/" + id,
@@ -100,6 +110,7 @@ export default class extends React.Component {
         }.bind(this));
     }
 
+    //Upon first load all records will be displayed
     componentDidMount() {
         this.loadPostsFromServer();
         // No more interval

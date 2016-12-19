@@ -8,9 +8,16 @@ import {API_CATALOG} from '../../global.js';
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
 
+/*CatalogTable Component
+*
+*Is contained in CatalogBox, renders the table of records
+*/
+
+
 export default class extends React.Component {
   constructor(props) {
     super(props);
+    //Defines the format of the table
     this.columns = [
       { title: 'Catalog', dataIndex: 'catalog', key: 'a', width: 100 },
       { title: 'Title', dataIndex: 'title', key: 'b', width: 100 },
@@ -19,7 +26,7 @@ export default class extends React.Component {
       {
         title: 'Operations', dataIndex: '', key: 'e', render: (text, record) =>
         <a onClick={e => {
-            e.preventDefault(); 
+            e.preventDefault();
             this.props.onDelete(record, e)
             }
         } href="#">Delete</a>,

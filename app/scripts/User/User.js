@@ -4,6 +4,10 @@ import ProfileImage from "./UserComponents/ProfileImage";
 import SignIn from "./UserComponents/SignIn";
 import SignOut from "./UserComponents/SignOut";
 
+/*Main User Component
+*Renders SignIn, UserName, SignedOut
+*
+*/
 
 
 export default class extends React.Component{
@@ -12,7 +16,8 @@ constructor(props) {
         this.state = {
         }
     }
-    
+
+    //Display SignIn info
     renderSignIn() {
         if (this.props.user.id == null) {
             return (
@@ -20,7 +25,8 @@ constructor(props) {
             );
         }
     }
-    
+
+    //Display the username
     renderUserName() {
         if (this.props.user.name) {
             return (
@@ -28,7 +34,8 @@ constructor(props) {
             );
         }
     }
-        
+
+    //Display signed out
     renderSignOut() {
         // Only render signOut if logged in
         if (this.props.user.id) {

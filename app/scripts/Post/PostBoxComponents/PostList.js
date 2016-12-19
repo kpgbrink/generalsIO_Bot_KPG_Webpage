@@ -2,6 +2,10 @@ import React from 'react';
 import $ from 'jquery';
 import Post from '../Post.js';
 
+/*Component that lists all posts.
+*
+*
+*/
 
 export default class extends React.Component{
     constructor(props) {

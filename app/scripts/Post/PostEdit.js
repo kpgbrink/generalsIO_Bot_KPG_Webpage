@@ -4,6 +4,11 @@ import $ from 'jquery';
 
 import { API_POSTS } from '../global.js';
 
+/*PostEdit Component
+*Page that allows the user to edit a previously made comment
+*
+*/
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -16,13 +21,14 @@ export default class extends React.Component {
         this.loadData();
     }
     componentWillUnmount() {
-        this.allowAjaxResponse = false;  
+        this.allowAjaxResponse = false;
     }
     componentDidUpdate(prevProps) {
         if (this.props.params.id != prevProps.params.id) {
             this.loadData();
         }
     }
+    //Grabs the data of the post
     loadData() {
         $.ajax(API_POSTS + "/" + encodeURIComponent(this.props.params.id)).done(function(post) {
             if (this.allowAjaxResponse) {
@@ -30,9 +36,11 @@ export default class extends React.Component {
             }
         }.bind(this));
     }
+    //Called to change the Author
     handleAuthorChange(e) {
         this.setState({title: e.target.value});
     }
+    //Called to change the text
     handleTextChange(e) {
         this.setState({text: e.target.value});
     }
@@ -41,6 +49,7 @@ export default class extends React.Component {
             router: React.PropTypes.object,
         };
     }
+    //Sets the state to the updated values and PUTS to the database
     handleUpdate() {
         var updatedPost = {
             title: this.state.title.trim(),
@@ -60,6 +69,7 @@ export default class extends React.Component {
              console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
+    //Delete method for removing a post
     handleDelete() {
         $.ajax({
             url: API_POSTS + "/" + this.props.params.id,

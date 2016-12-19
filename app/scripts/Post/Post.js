@@ -5,18 +5,23 @@ import TimeAgo from 'react-timeago';
 import youtubeUrl from 'youtube-url';
 import YouTube from'react-youtube';
 
+/*Individual Post component
+*Contains the edit and comment links
+*
+*/
+
 export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {};
     }
-    
+
     rawMarkup() {
         var md = new Remarkable({html: true});
         var rawMarkup = md.render(this.props.children.toString());
         return { __html: rawMarkup };
     }
-    
+
     renderEditLink() {
         if (this.props.user.id == this.props.post.user._id) {
             return (
@@ -24,7 +29,7 @@ export default class extends React.Component{
             );
         }
     }
-    
+
     renderCommentsLink() {
         // TODO somehow make comments display the amount of comments
         if (this.props.comments) {
@@ -33,7 +38,7 @@ export default class extends React.Component{
             );
         }
     }
-    
+
     renderPostUrl() {
         // handle images and gifs
         console.log("url", this.props.post.url);
@@ -52,7 +57,7 @@ export default class extends React.Component{
             }
         }
     }
-    
+
     render() {
         return (
             <div className="post">
@@ -71,7 +76,7 @@ export default class extends React.Component{
                 <div className="post-links">
                     {this.renderEditLink()}
                     {this.renderCommentsLink()}
-                </div>    
+                </div>
             </div>
         );
     }

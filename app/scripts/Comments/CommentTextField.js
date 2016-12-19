@@ -1,5 +1,10 @@
 import React from 'react';
 
+/*CommentTextField Component
+*
+*Returns the text field to leave a comment
+*/
+
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -7,17 +12,17 @@ export default class extends React.Component{
             hasBeenFocused: false
         }
     }
-   
-    
+
+
     handleRef(input) {
         if (input && !this.state.hasBeenFocused) {
             input.focus();
             this.setState({
-                hasBeenFocused: true 
+                hasBeenFocused: true
             });
         }
     }
-    
+
     render() {
         return (
                 <textarea ref={this.handleRef.bind(this)} className="ui-widget ui-corner-all" type="text" placeholder="comment..."

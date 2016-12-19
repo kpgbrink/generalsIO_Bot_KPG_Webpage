@@ -5,6 +5,11 @@ import PostList from './PostBoxComponents/PostList.js';
 import PostForm from './PostBoxComponents/PostForm.js';
 import {API_POSTS} from '../global.js';
 
+/*PostBox Component
+*Main Component housing PostList
+*
+*/
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +19,8 @@ export default class extends React.Component {
         };
         this.allowAjaxResponse = true;
     }
+
+    //Grabs the posts from the server
     loadPostsFromServer() {
         $.ajax({
             url: API_POSTS,
@@ -29,6 +36,8 @@ export default class extends React.Component {
              console.error(API_POSTS, status, errorThrown.toString());
          }.bind(this));
     }
+
+    //Method to post to the database with new post
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
@@ -50,6 +59,8 @@ export default class extends React.Component {
              alert('Please Login to Post');
          }.bind(this));
     }
+
+    //When rendered grabs all posts from the server
     componentDidMount() {
         this.loadPostsFromServer();
         // No more interval

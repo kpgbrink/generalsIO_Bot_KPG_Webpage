@@ -4,6 +4,11 @@ import $ from "jquery";
 
 let idSuffixCount = 0;
 
+/*Sign In Component
+*Render the sign in page
+*
+*/
+
 export default class SignIn extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +16,8 @@ export default class SignIn extends React.Component {
         this.state = {
         };
     }
-    
+
+    //Posts to the database googleUser info
     componentDidMount() {
         gapi.signin2.render(this.id, {
             scope: "profile email",
@@ -25,13 +31,13 @@ export default class SignIn extends React.Component {
                 .done(function(result) {
                     this.props.onSignIn(googleUser);
                     var profile = googleUser.getBasicProfile();
-                    
+
                     console.log('ID: ' + profile.getId());
                     console.log('Name: ' + profile.getName());
                     console.log('Image URL: ' + profile.getImageUrl());
                     console.log('Email: ' + profile.getEmail());
-                    
-                    this.props.onSignIn({id: result.userId, 
+
+                    this.props.onSignIn({id: result.userId,
                                         name: profile.getName(),
                                         avatarImageUrl: profile.getImageUrl(),
                                         });
@@ -45,7 +51,7 @@ export default class SignIn extends React.Component {
             }
         });
     }
-    
+
     static get defaultProps() {
         return {
             onSignIn: () => {},

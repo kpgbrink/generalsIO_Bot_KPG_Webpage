@@ -2,6 +2,11 @@ import React from 'react';
 import ProfileImage from '../User/UserComponents/ProfileImage.js';
 import PostBox from '../Post/PostBox.js';
 
+/*
+*Component to display the users profile image, name and their posts
+*
+*/
+
 export default class extends React.Component{
 constructor(props) {
         super(props);
