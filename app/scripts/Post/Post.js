@@ -45,7 +45,7 @@ export default class extends React.Component{
                 );
             } else {
                 return (
-                    <a href={this.props.post.url} target="_blank"><img src={this.props.post.url} alt="link"/></a>
+                    <a href={this.props.post.url} target="_blank"><img className="post-image" src={this.props.post.url} alt="link"/></a>
                 );
             }
         }

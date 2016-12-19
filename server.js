@@ -97,7 +97,11 @@ app.post('/api/logout', function(req, res) {
 });
 
 app.get('/api/posts', function(req, res, next) {
-    getPostCollection(req, res).catch(next);
+    if (!req.query.userFilter) {
+        getPostCollection(req, res).catch(next);
+    } else {
+        getUserPostCollection(req, res, req.query.userFilter).catch(next);
+    }
 });
 
 //All catalog results
@@ -267,11 +271,22 @@ var getPost = function (postId, res) {
     })
 }
 
-// TODO make this get user id and email.
+
 var getPostCollection = function (req, res) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
     return collections.post.find({}, {sort: { date : -1 }}).toArray().then((posts) => {
+        //console.log(docs);
+        return buildUsersFromIds(posts);
+    }).then(posts => {
+        res.json(posts);
+    });
+}
+
+var getUserPostCollection = function (req, res, userId) {
+    // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
+    // Making this get user id and email
+    return collections.post.find({userId: ObjectId(userId)}, {sort: { date : -1 }}).toArray().then((posts) => {
         //console.log(docs);
         return buildUsersFromIds(posts);
     }).then(posts => {

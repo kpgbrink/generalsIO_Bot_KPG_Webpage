@@ -17,7 +17,8 @@ export default class extends React.Component {
     loadPostsFromServer() {
         $.ajax({
             url: API_POSTS,
-            dataType: 'json'
+            dataType: 'json',
+            data: {userFilter: this.props.userFilter}
         })
          .done(function(result){
              if (this.allowAjaxResponse) {
@@ -57,10 +58,11 @@ export default class extends React.Component {
     componentWillUnmount() {
         this.allowAjaxResponse = false;
     }
+
     render() {
         return (
             <div className="post-box">
-                <PostForm onPostSubmit={this.handlePostSubmit.bind(this)} user={this.props.user}/>
+            {!this.props.userFilter && <PostForm onPostSubmit={this.handlePostSubmit.bind(this)} user={this.props.user}/>}
                 <PostList data={this.state.data} user={this.props.user}/>
             </div>
         );
