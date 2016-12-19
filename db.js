@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient
 
 // process.env.MONGO_PASSWORD
 // This assumes that the MongoDB password has been set as an environment variable.
-var mongoURL = 'mongodb://cs336:'+'bjarne'+'@ds119738.mlab.com:19738/media_react';
+var mongoURL = 'mongodb://cs336:'+process.env.MONGO_PASSWORD+'@ds119738.mlab.com:19738/media_react';
 
 //http://stackoverflow.com/a/39831825/2948122
 var dbPromise = MongoClient.connect(mongoURL, 
