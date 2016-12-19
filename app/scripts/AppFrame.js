@@ -3,11 +3,10 @@ import User from './User/User.js';
 import { IndexLink, Link} from 'react-router';
 
 
-
 export default class extends React.Component{
     constructor(props) {
         super(props);
-        
+
         this.state = {
         };
     }

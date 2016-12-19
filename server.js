@@ -14,6 +14,7 @@ const _ = require('lodash');
 const APP_PATH = path.join(__dirname, 'dist');
 
 var collections;
+var catalog;
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -104,20 +105,25 @@ app.get('/api/catalog', function(req, res, next) {
     getCatalogCollection(res).catch(next);
 });
 
-//Movie results
-app.get('/api/catalog/movie', function(req, res, next) {
-    getCatalogCollectionMovie(res).catch(next);
+app.get('/api/catalog/:catalog', function(req, res, next) {
+    catalog = req.params.catalog;
+    getCatalogCollection(res, catalog).catch(next);
 });
 
-//Book results
-app.get('/api/catalog/book', function(req, res, next) {
-    getCatalogCollectionBook(res).catch(next);
-});
-
-//Music results
-app.get('/api/catalog/music', function(req, res, next) {
-    getCatalogCollectionMusic(res).catch(next);
-});
+// //Movie results
+// app.get('/api/catalog/movie', function(req, res, next) {
+//     getCatalogCollectionMovie(res).catch(next);
+// });
+//
+// //Book results
+// app.get('/api/catalog/book', function(req, res, next) {
+//     getCatalogCollectionBook(res).catch(next);
+// });
+//
+// //Music results
+// app.get('/api/catalog/music', function(req, res, next) {
+//     getCatalogCollectionMusic(res).catch(next);
+// });
 
 
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
@@ -292,29 +298,37 @@ var getCatalogCollection = function (res) {
     });
 }
 
-//MOVIES Query
-var getCatalogCollectionMovie = function (res) {
-    return collections.catalog.find({catalog: 'Movie' }, {sort: { title : 1 }}).toArray().then((docs) => {
+//Gets data based on type variable
+var getCatalogCollectionType = function (res, catalog) {
+    return collections.catalog.find({catalog: catalog}, {sort: { title : 1 }}).toArray().then((docs) => {
         //console.log(docs);
         res.json(docs);
     });
 }
 
-//Books query
-var getCatalogCollectionBook = function (res) {
-    return collections.catalog.find({catalog: 'Book'}, {sort: { title : 1 }}).toArray().then((docs) => {
-        //console.log(docs);
-        res.json(docs);
-    });
-}
-
-//Music query
-var getCatalogCollectionMusic = function (res) {
-    return collections.catalog.find({catalog: 'Music'}, {sort: { title : 1 }}).toArray().then((docs) => {
-        //console.log(docs);
-        res.json(docs);
-    });
-}
+// //MOVIES Query
+// var getCatalogCollectionMovie = function (res) {
+//     return collections.catalog.find({catalog: 'Movie' }, {sort: { title : 1 }}).toArray().then((docs) => {
+//         //console.log(docs);
+//         res.json(docs);
+//     });
+// }
+//
+// //Books query
+// var getCatalogCollectionBook = function (res) {
+//     return collections.catalog.find({catalog: 'Book'}, {sort: { title : 1 }}).toArray().then((docs) => {
+//         //console.log(docs);
+//         res.json(docs);
+//     });
+// }
+//
+// //Music query
+// var getCatalogCollectionMusic = function (res) {
+//     return collections.catalog.find({catalog: 'Music'}, {sort: { title : 1 }}).toArray().then((docs) => {
+//         //console.log(docs);
+//         res.json(docs);
+//     });
+// }
 
 var userAsPublic = function (user) {
     return _.pick(user, ['_id', 'avatarUrl', 'name']);
