@@ -111,22 +111,6 @@ app.get('/api/catalog/:catalog', function(req, res, next) {
     getCatalogCollectionType(res, catalog).catch(next);
 });
 
-// //Movie results
-// app.get('/api/catalog/movie', function(req, res, next) {
-//     getCatalogCollectionMovie(res).catch(next);
-// });
-//
-// //Book results
-// app.get('/api/catalog/book', function(req, res, next) {
-//     getCatalogCollectionBook(res).catch(next);
-// });
-//
-// //Music results
-// app.get('/api/catalog/music', function(req, res, next) {
-//     getCatalogCollectionMusic(res).catch(next);
-// });
-
-
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
     // Check if logged in
     if (!req.session.mediaReactUserId) {
