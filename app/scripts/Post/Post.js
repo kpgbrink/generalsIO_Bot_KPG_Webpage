@@ -41,7 +41,9 @@ export default class extends React.Component{
             const youtubeId = youtubeUrl.extractId(this.props.post.url);
             if (youtubeId) {
                 return (
-                    <YouTube videoId={youtubeId}/>
+                    <div className="post-youtube-video">
+                        <YouTube videoId={youtubeId}/>
+                    </div>
                 );
             } else {
                 return (
