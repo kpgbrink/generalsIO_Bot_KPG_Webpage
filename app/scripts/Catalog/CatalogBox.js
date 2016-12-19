@@ -7,12 +7,15 @@ import Animate from 'rc-animate';
 import CatalogTable from './CatalogBoxComponents/CatalogTable.js';
 import CatalogForm from './CatalogBoxComponents/CatalogForm.js';
 import {API_CATALOG} from '../global.js';
+import {API_CATALOG_TYPE} from '../global.js';
 import {API_CATALOG_BOOK} from '../global.js';
 import {API_CATALOG_MUSIC} from '../global.js';
 import {API_CATALOG_MOVIE} from '../global.js';
 
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
+
+var type;
 
 export default class extends React.Component {
     constructor(props) {
@@ -40,10 +43,9 @@ export default class extends React.Component {
          }.bind(this));
     }
 
-    //Movie posts
-    loadPostsFromServerMovie() {
+    loadPostsFromServerType(type) {
         $.ajax({
-            url: API_CATALOG_MOVIE,
+            url: API_CATALOG_TYPE + "/" + type,
             dataType: 'json'
         })
          .done(function(result){
@@ -55,39 +57,7 @@ export default class extends React.Component {
              console.error(this.props.url, status, errorThrown.toString());
          }.bind(this));
     }
-
-    //Book posts
-    loadPostsFromServerBook() {
-        $.ajax({
-            url: API_CATALOG_BOOK,
-            dataType: 'json'
-        })
-         .done(function(result){
-             if (this.allowAjaxResponse) {
-                this.setState({data: result});
-             }
-         }.bind(this))
-         .fail(function(xhr, status, errorThrown) {
-             console.error(this.props.url, status, errorThrown.toString());
-         }.bind(this));
-    }
-
-    //Music posts
-    loadPostsFromServerMusic() {
-        $.ajax({
-            url: API_CATALOG_MUSIC,
-            dataType: 'json'
-        })
-         .done(function(result){
-             if (this.allowAjaxResponse) {
-                this.setState({data: result});
-             }
-         }.bind(this))
-         .fail(function(xhr, status, errorThrown) {
-             console.error(this.props.url, status, errorThrown.toString());
-         }.bind(this));
-    }
-
+    
     handlePostSubmit(post) {
         var posts = this.state.data;
         post._id = `prefixId-${this.state.pendingId}`;
@@ -125,13 +95,13 @@ export default class extends React.Component {
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <br></br>
         Choose your collection:
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerBook()}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("book")}}>
         Books
         </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerMusic()}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("music")}}>
         Music
         </button>
-        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerMovie()}}>
+        <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("movie")}}>
         Movies
         </button>
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServer()}}>

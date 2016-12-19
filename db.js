@@ -46,6 +46,7 @@ var commentCollection = dbPromise.then((db) => {
     return commentCollection.createIndex('date').then(() => commentCollection);
 });
 
+//Collection for the Catalog
 var catalogConnection = dbPromise.then((db) => {
     return new Promise((resolve,reject) => {
          db.createCollection('catalog', {}, (err, data) => {
@@ -56,7 +57,8 @@ var catalogConnection = dbPromise.then((db) => {
 }).then((catalogConnection) => {
     return catalogConnection.createIndex('date').then(() => catalogConnection);
 });
-    
+
+
 var userCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) =>{
          db.createCollection('user', {validator: {email: { $type: "string"}}}, (err, data) => {
