@@ -21,6 +21,17 @@
     text-decoration: none;
 }
 
+:global(.header-left) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+:global(.media-react-image) {
+    width: 3em;
+    padding-left: 2em;
+}
+
 :global(.header) {
     display: flex;
     justify-content: space-between;
@@ -39,7 +50,7 @@
     margin-left: .75em;
 }
 
-:global(.header)>:global(.links) {
+:global(.header) :global(.links) {
     display: flex;
     flex-wrap: wrap;
     font-size: 20px;
@@ -85,6 +96,11 @@
 :global(.post-user)>:global(.post-user-avatar-url) {
     width: 1.5em;
     height: 1.5em;
+    border-radius: 50%;
+}
+
+:global(.post) {
+    
 }
 
 :global(.comments-link), :global(.edit-link) {
@@ -98,8 +114,9 @@
 }
 
 :global(.post) {
-    padding: .01em;
+    padding: .1em;
     border-bottom: 2px solid black;
+    box-shadow: 3px 2px 4px rgba(0, 0, 0, .5);
 }
 
 :global(.post-text) {
@@ -127,6 +144,20 @@
 :global(.comment-user-image) {
     height: 2em;
     width: 2em;
+    border-radius: 50%;
+}
+
+:global(.comment-user-name) {
+    font-weight: bold;
+    padding: 1px 4px 5px 6px;
+}
+
+:global(.comment-text) {
+    padding: 2px 2px 2px 8px;
+}
+
+:global(.comment-name-and-time) {
+    display: flex;
 }
 
 :global(.post-button) {

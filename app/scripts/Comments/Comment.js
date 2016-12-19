@@ -39,9 +39,11 @@ export default class extends React.Component {
             <div className="comment">
                 <img className="comment-user-image" src={this.props.comment.user.avatarUrl} alt=""/>
                 <div className="comment-no-image">
-                    <p className="comment-user-name"> {this.props.comment.user.name} </p>
+                    <div className="comment-name-and-time">
+                        <p className="comment-user-name"> {this.props.comment.user.name}</p>
+                        <TimeAgo date={this.props.comment.date}/>
+                    </div>
                     <p className="comment-text" dangerouslySetInnerHTML={this.rawMarkup()} />
-                    <TimeAgo date={this.props.comment.date}/><br/>
                     {this.displayResponse()}
                 </div>
             </div>
