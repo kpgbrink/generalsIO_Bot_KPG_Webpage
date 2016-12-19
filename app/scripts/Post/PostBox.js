@@ -60,7 +60,6 @@ export default class extends React.Component {
     render() {
         return (
             <div className="post-box">
-                <h1>Posts</h1>
                 <PostForm onPostSubmit={this.handlePostSubmit.bind(this)} user={this.props.user}/>
                 <PostList data={this.state.data} user={this.props.user}/>
             </div>

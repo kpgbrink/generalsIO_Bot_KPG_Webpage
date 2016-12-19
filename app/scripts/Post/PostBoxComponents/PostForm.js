@@ -37,7 +37,7 @@ export default class extends React.Component{
                     cols="91"
                 />
                 <br/>
-                <input className="ui-button ui-widget ui-corner-all" type="submit" value="Post" />
+                <button className="ui-button ui-widget ui-corner-all post-button">Post</button>
             </form>
         );
     }

@@ -1,3 +1,4 @@
+
 :global(.comment-thread) {
     margin-left: 1em;
 }
@@ -17,7 +18,7 @@
     font-family: monospace;
     font-weight: bolder;
     font-size: 50px;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 :global(.header) {
@@ -25,7 +26,9 @@
     justify-content: space-between;
     list-style: none;
     background-color: lightblue;
-    align-items: flex-end;
+    align-items: flex-start;
+    border-bottom: 2px solid black;
+    flex-wrap: wrap-reverse;
 }
 
 :global(.header) li {
@@ -34,32 +37,35 @@
     background-color: lightgrey;
     text-align: center;
     margin-left: .75em;
-    border-style: solid;
-    border-width: 3px;
 }
 
 :global(.header)>:global(.links) {
     display: flex;
-    font-size: 25px;
+    flex-wrap: wrap;
+    font-size: 20px;
 }
 
 :global(.header) li a {
     display: block;
     padding: .1em;
-    text-decoration: underline;
+    text-decoration: none;
+    font-family: sans-serif;
+    border: 3px solid lightgrey;
+    border-bottom: none;
     color: purple;
   }
 
 :global(.header) li :global(.active) {
     background-color: yellow;
     color: blue;
-    width: 8em;
     font-weight: bolder;
+    border-color: black;
 }
 
 :global(.header)>:global(.user) {
     display: flex;
     height: 3.5em;
+    border: 2px solid black;
 }
 
 :global(.header)>:global(.user)>:global(.user-info) {
@@ -86,7 +92,8 @@
 }
 
 :global(.content) {
-    padding-left: 5em;
+    padding-left: 5vw;
+    padding-right: 5vw;
     padding-top: 1em;
 }
 
@@ -110,10 +117,29 @@
 }
 
 :global(.comment-thread) {
-    border: 2px solid yellow;
+    background-color: azure;
+    border: 2px solid grey;
+    border-radius: 1%;
+    padding: 5px;
+    box-shadow: 3px 2px 4px rgba(0, 0, 0, .5);
 }
 
 :global(.comment-user-image) {
     height: 2em;
     width: 2em;
+}
+
+:global(.post-button) {
+    font-weight: bold;
+    padding: .4em;
+}
+
+:global(.post-form) {
+    padding: 1em;
+}
+
+:global(.post-form) input,
+:global(.post-form) textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
