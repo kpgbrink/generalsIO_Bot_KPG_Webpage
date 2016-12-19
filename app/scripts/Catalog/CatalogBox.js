@@ -95,18 +95,23 @@ export default class extends React.Component {
         <CatalogForm onPostSubmit={this.handlePostSubmit.bind(this)}/>
         <br></br>
         Choose your collection:
+        <div className="catalog_buttons">
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Book")}}>
         Books
         </button>
+         <div className="divider"/>
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Music")}}>
         Music
         </button>
+         <div className="divider"/>
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServerType("Movie")}}>
         Movies
         </button>
+         <div className="divider"/>
         <button className="ui-button ui-widget ui-corner-all" onClick={() => {this.loadPostsFromServer()}}>
         All
         </button>
+        </div>
         <CatalogTable data={this.state.data}/>
       </div>
     );

@@ -137,7 +137,7 @@ app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
                 res.status(403).end();
                 return;
             }
-            return getPostCollection(req, res);
+            return getCatalogCollection(req, res);
         }).catch(next);
 });
 
