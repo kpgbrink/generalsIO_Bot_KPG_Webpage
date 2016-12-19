@@ -25,6 +25,12 @@ const defaultUser = {
 
 // https://www.kirupa.com/react/creating_single_page_app_react_using_react_router.htm
 
+
+/* ContainerComponent handles the react routing
+ *
+ *
+ *
+*/
 class ContainerComponent extends React.Component {
     render() {
         console.log(this);

@@ -8,6 +8,7 @@ var MongoClient = require('mongodb').MongoClient
 var mongoURL = 'mongodb://cs336:'+process.env.MONGO_PASSWORD+'@ds119738.mlab.com:19738/media_react';
 
 //http://stackoverflow.com/a/39831825/2948122
+// Make the server constantly try to recconect to Mongo if connection is lost.
 var dbPromise = MongoClient.connect(mongoURL, 
     { server: { 
         // sets how many times to try reconnecting
@@ -19,6 +20,7 @@ var dbPromise = MongoClient.connect(mongoURL,
 );
 
 // http://stackoverflow.com/a/22519785/2948122
+// Make a collection for the posts
 var postCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) => {
          db.createCollection('post', {
@@ -36,6 +38,7 @@ var postCollection = dbPromise.then((db) => {
 });
 
 // http://stackoverflow.com/a/22519785/2948122
+// make a collection for the comments
 var commentCollection = dbPromise.then((db) => {
     return new Promise((resolve, reject) => {
          db.createCollection('comment', {
@@ -56,7 +59,7 @@ var commentCollection = dbPromise.then((db) => {
     return commentCollection.createIndex('date').then(() => commentCollection);
 });
 
-//Collection for the Catalog
+// Make collection for catalog 
 var catalogConnection = dbPromise.then((db) => {
     return new Promise((resolve,reject) => {
          db.createCollection('catalog', {}, (err, data) => {
@@ -68,7 +71,7 @@ var catalogConnection = dbPromise.then((db) => {
     return catalogConnection.createIndex('date').then(() => catalogConnection);
 });
 
-
+// Make collection for users
 var userCollection = dbPromise.then((db) => {
     return new Promise((resolve,reject) =>{
          db.createCollection('user', {validator: {email: { $type: "string"}}}, (err, data) => {
@@ -82,6 +85,7 @@ var userCollection = dbPromise.then((db) => {
 
 const collections = {};
 var db;
+// Exports all needed things for the data base
 module.exports = Promise.all([
         postCollection.then((postCollection) => collections.post = postCollection),
         commentCollection.then((commentCollection) => collections.comment = commentCollection),

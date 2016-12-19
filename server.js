@@ -27,7 +27,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Check authorization to do certain functions
+/* Server for Media React
+ * This uses google login for handling users and MongoDB for the database   
+ * see db.js for how the dataBase is set up.
+*/
+
+// Check authorization of user for doing certian things
 const authorizedTo = function (role) {
     return function (req, res, next) {
         let userPromise = Promise.resolve(null);
@@ -50,13 +55,13 @@ const authorizedTo = function (role) {
     };
 };
 
-
-// Login
+// login using google Oauth.
 app.post('/api/login', function(req, res) {
     const googleTemplate = url.parse('https://www.googleapis.com/oauth2/v3/tokeninfo', true);
     googleTemplate.query.id_token = req.body.id_token;
     request({url:url.format(googleTemplate), json:true}, (error, response, body) => {
         if (!error && response.statusCode == 200 && body.email_verified) {
+            // use recursion for logging in / make new account
             const findOrCreateUserByEmail = function () {
                 return collections.user.findOne({email: body.email}).then((user) => {
                     if  (user) {
@@ -87,6 +92,8 @@ app.post('/api/login', function(req, res) {
     });
 });
 
+// Logout
+// 500 error if failed to logout
 app.post('/api/logout', function(req, res) {
     if (req.session.mediaReactUserId) {
         req.session.mediaReactUserId = null;
@@ -96,6 +103,8 @@ app.post('/api/logout', function(req, res) {
     }
 });
 
+// get all of the posts
+// if userFilter then filter it out by the user
 app.get('/api/posts', function(req, res, next) {
     if (!req.query.userFilter) {
         getPostCollection(req, res).catch(next);
@@ -104,17 +113,18 @@ app.get('/api/posts', function(req, res, next) {
     }
 });
 
-//All catalog results
+// get all catalogs
 app.get('/api/catalog', function(req, res, next) {
     getCatalogCollection(res).catch(next);
 });
 
-//
+// get a specific type of catalog
 app.get('/api/catalog/:catalog', function(req, res, next) {
     var catalog = req.params.catalog;
     getCatalogCollectionType(res, catalog).catch(next);
 });
 
+// post new thing to catalog
 app.post('/api/catalog', authorizedTo(), function(req, res, next) {
     // Check if logged in
     if (!req.session.mediaReactUserId) {
@@ -133,7 +143,8 @@ app.post('/api/catalog', authorizedTo(), function(req, res, next) {
     }).catch(next);
 });
 
-// TODO FINISH THIS
+// delete thing in catalog
+// returns a 403 if nothing was deleted
 app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
     collections.catalog.deleteOne(
         {'_id': ObjectId(req.params.id)}).then((result) => {
@@ -145,6 +156,7 @@ app.delete('/api/catalog/:id', authorizedTo(), function(req, res, next) {
         }).catch(next);
 });
 
+// post to the post collection. This also handles if someone is posting a link or not
 app.post('/api/posts', authorizedTo(), function(req, res, next) {
     var newPost = {
         type: req.body.type,
@@ -162,12 +174,13 @@ app.post('/api/posts', authorizedTo(), function(req, res, next) {
     }).catch(next);
 });
 
-// TODO FINISH THIS
+// get a certain post
 app.get('/api/posts/:id', function(req, res, next) {
     console.log('getting the post for ye');
     getPost(req.params.id, res).catch(next);
 });
 
+// change a post
 app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
     // Make this throw a 403
     var updateId = ObjectId(req.params.id);
@@ -179,6 +192,7 @@ app.put('/api/posts/:id', authorizedTo(), function(req, res, next) {
         }).catch(next);
 });
 
+// delete a specific post
 app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
     collections.post.deleteOne(
         {'_id': ObjectId(req.params.id), userId: ObjectId(req.session.mediaReactUserId)}).then((result) => {
@@ -190,6 +204,7 @@ app.delete('/api/posts/:id', authorizedTo(), function(req, res, next) {
         }).catch(next);
 });
 
+// for posting comments
 app.post('/api/comments', authorizedTo(), function(req, res, next) {
     collections.post.findOne({_id: ObjectId(req.body.postId)}).then((post) => {
         if (!post) {
@@ -215,6 +230,7 @@ app.post('/api/comments', authorizedTo(), function(req, res, next) {
 // Send all routes/methods not specified above to the app root.
 app.use('*', express.static(APP_PATH));
 
+// once the db is made make run the server
 db.then((dbThings) => {
     collections = dbThings.collections;
     console.log("DB resolved");
@@ -228,13 +244,16 @@ db.then((dbThings) => {
       store: dbThings.sessionStore
     }));
 
+    // attach outerApp to app
     outerApp.use(app);
 
+    // listen on port
     outerApp.listen(app.get('port'), function() {
         console.log('Server started: http://localhost:' + app.get('port') + '/');
     });
 });
 
+// get post and comments with users attached to the comments
 var getPost = function (postId, res) {
     // Todo add this to more things to make reduce change of DOS
     if (typeof postId !== 'string' && !(postId instanceof ObjectId)) {
@@ -271,7 +290,7 @@ var getPost = function (postId, res) {
     })
 }
 
-
+// get all posts sorted by date
 var getPostCollection = function (req, res) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
@@ -283,6 +302,7 @@ var getPostCollection = function (req, res) {
     });
 }
 
+// get all posts of a certain user
 var getUserPostCollection = function (req, res, userId) {
     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#find
     // Making this get user id and email
@@ -294,8 +314,7 @@ var getUserPostCollection = function (req, res, userId) {
     });
 }
 
-//This is were mongodb get queried
-//All data
+// get catalog collection sorted by date
 var getCatalogCollection = function (res) {
     return collections.catalog.find({}, {sort: { date : -1 }}).toArray().then((docs) => {
         //console.log(docs);
@@ -311,6 +330,7 @@ var getCatalogCollectionType = function (res, catalog) {
     });
 }
 
+// function for returning only parts of users information so the server does not leak important information about the user
 var userAsPublic = function (user) {
     return _.pick(user, ['_id', 'avatarUrl', 'name']);
 }
