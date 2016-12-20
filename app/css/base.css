@@ -1,4 +1,8 @@
 
+:global(.comment-threads)>:global(.comment-thread) {
+    margin-left: 0em;
+}
+
 :global(.comment-thread) {
     margin-left: 1em;
 }
