@@ -5,7 +5,7 @@
 Media Catalog is a web application that caters towards users that want a centralized place to store records of music, books or movies. Not only that, but it is also a hub to post comments about media and have discussions with others. We have utlized google logins so that users can distinguish who posted what and have private catalogs.
 
 ## Responsive Design:
-This site can easily be viewed on the phone or the computer. With flex the bottons at the top will stay in screen. Try this website out on a phone.
+This site can easily be viewed on the phone or the computer thanks to flex. Try this website out on a phone.
 
 ### Using:
 MongoDB, Heroku, GoogleLogin.
