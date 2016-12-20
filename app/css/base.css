@@ -8,6 +8,19 @@
     margin: 0em;
 }
 
+html,
+body,
+:global(#content) {
+    height: 100%;
+}
+
+:global(.app-frame) {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 :global(.header-title) {
     background-color: lightblue;
     padding: .1em;
@@ -111,7 +124,10 @@
     padding-left: 5vw;
     padding-right: 5vw;
     padding-top: 1em;
+    min-height: 100%;
 }
+
+
 
 :global(.post) {
     padding: .1em;
@@ -197,3 +213,10 @@
 :global(.post-youtube-video) {
     max-width: 100%;
 }
+
+:global(.footer) {
+    background-color: lightblue;
+    border-top: 2px solid black;
+    height: 3em;
+}
+
