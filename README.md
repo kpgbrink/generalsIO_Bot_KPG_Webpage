@@ -1,8 +1,11 @@
 # Media React
-## [Herouk Url](https://mediareact.herokuapp.com/Post)
+## [Heroku Url](https://mediareact.herokuapp.com/Post)
 
 ### Using:
 MongoDB, Heroku, GoogleLogin.
+
+### Featured Node Modules:
+rc-table, rc-animate, rc-util, react-timeago, react-youtube, youtube-url, and lodash. Thank you lodash.
 
 ## Features:
 ### Post:
