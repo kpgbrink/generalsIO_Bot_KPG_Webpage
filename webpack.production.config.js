@@ -12,9 +12,6 @@ module.exports = {
         path: __dirname + '/dist',
         filename: '/bundle.js',
     },
-    externals: {
-        gapi: "gapi",
-    },
     module: {
         loaders: [
             { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" },
