@@ -12,16 +12,11 @@ import '../css/base.css';
 
 // https://www.kirupa.com/react/creating_single_page_app_react_using_react_router.htm
 
-
-/* ContainerComponent handles the react routing
- *
-*/
-
 ReactDOM.render(
-    <Router history={browserHistory}>
-        <Route path="/" component={AppFrame}>
-            <IndexRoute component={HomePage}/>
-            <Route path="MoreStatistics" component={MoreStatistics}/>
-        </Route>
-    </Router>,
-    document.getElementById('content'));
+  <Router history={browserHistory}>
+      <Route path="/" component={AppFrame}>
+          <IndexRoute component={HomePage}/>
+          <Route path="MoreStatistics" component={MoreStatistics}/>
+      </Route>
+  </Router>,
+  document.getElementById('content'));
