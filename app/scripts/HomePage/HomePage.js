@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-/*Main User Component
-*Renders SignIn, UserName, SignedOut
-*
+import Introduction from './Introduction';
+
+/*Home Page
 */
-export default class extends React.Component{
+export default class HomePage extends React.Component{
 constructor(props) {
         super(props);
         this.state = {
@@ -13,8 +13,8 @@ constructor(props) {
 
     render() {
         return (
-            <div className="user">
-                <p> Hello do you want to talk about this bot ? </p>
+            <div className="homepage viewpage">
+                <Introduction/>
             </div>
             );
     }

@@ -4,7 +4,7 @@ import React from 'react';
 *Component to display the users profile image, name and their posts
 *
 */
-export default class extends React.Component{
+export default class MoreStatistics extends React.Component{
 constructor(props) {
         super(props);
         this.state = {

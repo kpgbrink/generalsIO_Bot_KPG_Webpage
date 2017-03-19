@@ -6,7 +6,7 @@ import { IndexLink, Link} from 'react-router';
 *Includes the Header, Footer, and link to other components
 */
 
-export default class extends React.Component{
+export default class AppFrame extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ export default class extends React.Component{
     return (
       <div className="app-frame">
         <div className="header-title">
-          <h2 className="header-title-text">Media React</h2>
+          <h2 className="header-title-text">KPG NPB BOT</h2>
         </div>
         <ul className="header">
           <div className="links">
