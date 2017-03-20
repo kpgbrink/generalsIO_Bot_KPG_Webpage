@@ -3,15 +3,20 @@ import React from 'react';
 import RecordedGameRow from './RecordedGameRow';
 
 const styles = {
-  row: {
-
-  },
   table: {
     textAlign: 'center',
+    margin: '20px',
+    border: '3px black solid'
   },
   tableHeader: {
+    textAlign: 'center',
+    padding: '10px',
+    color: '#124323',
+    border: '2px black solid',
+  },
+  tableHeaderRow: {
 
-  }
+  },
 };
 
 
@@ -33,12 +38,12 @@ export default class RecordedGameList extends React.Component{
         <table style={styles.table}>
           <tbody>
             <tr>
-              <th>Outcome</th>
-              <th>Enemies</th>
-              <th>Defense Radius</th>
-              <th>Bozo Frame Count</th>
-              <th>Wait time</th>
-              <th>Past Indices Max</th>
+              <th style={styles.tableHeader}>Outcome</th>
+              <th style={styles.tableHeader}>Enemies</th>
+              <th style={styles.tableHeader}>Defense Radius</th>
+              <th style={styles.tableHeader}>Bozo Frame Count</th>
+              <th style={styles.tableHeader}>Wait time</th>
+              <th style={styles.tableHeader}>Past Indices Max</th>
             </tr>
             {gameRows}
           </tbody>

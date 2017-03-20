@@ -5,6 +5,16 @@ import Introduction from './Introduction';
 import MainStatistics from './MainStatistics';
 import RecordedGameList from './RecordedGameList';
 
+const styles = {
+  homePage: {
+    backgroundColor: '#a8e2a0',
+    padding: '20px',
+    height: '100%',
+  },
+
+};
+
+
 /*Home Page
 */
 export default class HomePage extends React.Component{
@@ -42,7 +52,7 @@ export default class HomePage extends React.Component{
 
   render() {
     return (
-      <div className="HomePage">
+      <div style={styles.homePage}>
         <Introduction/>
         <MainStatistics summaryData={this.state.summaryData}/>
         <RecordedGameList gameList={this.state.gameList}/>

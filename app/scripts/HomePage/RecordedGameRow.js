@@ -1,9 +1,20 @@
 import React from 'react';
 
+const styles = {
+  win: {
+    backgroundColor: 'blue',
+  },
+  lose: {
+    backgroundColor: 'red',
+  }
+}
+
+
+
 export default function RecordedGameRow(props) {
   return (
     <tr className='RecordedGameListRow'>
-      <td> {props.rowData.outcome}</td>
+      <td> {props.rowData.outcome?'Win':'Lose'}</td>
       <td> {props.rowData.gameStart.usernames.map((u, i) => ({
         username: u,
         index: i,
