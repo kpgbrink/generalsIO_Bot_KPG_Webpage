@@ -16,8 +16,7 @@ export default class HomePage extends React.Component{
           overallWinPercentage: 0,
           last100WinPercentage: 0,
         },
-        gameList: [{'hi': 'hi', 'replay_id':1},
-        {'hi':'bye', 'replay_id':2}],
+        gameList: [],
     }
   }
 
@@ -36,7 +35,7 @@ export default class HomePage extends React.Component{
           overallWinPercentage: result.summary[0].winPercentage,
           last100WinPercentage: result.lastHundredGames.summary.winPercentage,
         },
-        gameList: result.lastHundredGames.lastHundred
+        gameList: result.lastHundredGames.lastHundred,
       });
     });
   }
