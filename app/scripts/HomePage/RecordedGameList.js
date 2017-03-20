@@ -14,9 +14,9 @@ const styles = {
     color: '#124323',
     border: '2px black solid',
   },
-  tableHeaderRow: {
-
-  },
+  RecordedGameList: {
+    backgroundColor: '#542054',
+  }
 };
 
 
@@ -34,7 +34,7 @@ export default class RecordedGameList extends React.Component{
       );
     });
     return (
-      <div className='RecordedgameList'>
+      <div className='RecordedgameList' style={styles.RecordedgameList}>
         <table style={styles.table}>
           <tbody>
             <tr>
@@ -44,6 +44,7 @@ export default class RecordedGameList extends React.Component{
               <th style={styles.tableHeader}>Bozo Frame Count</th>
               <th style={styles.tableHeader}>Wait time</th>
               <th style={styles.tableHeader}>Past Indices Max</th>
+              <th style={styles.tableHeader}>Time Ago</th>
             </tr>
             {gameRows}
           </tbody>

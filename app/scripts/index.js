@@ -19,4 +19,4 @@ ReactDOM.render(
           <Route path="MoreStatistics" component={MoreStatistics}/>
       </Route>
   </Router>,
-  document.getElementById('content'));
+  document.getElementById('Content'));

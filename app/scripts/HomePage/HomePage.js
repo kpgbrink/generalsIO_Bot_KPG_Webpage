@@ -7,11 +7,18 @@ import RecordedGameList from './RecordedGameList';
 
 const styles = {
   homePage: {
-    backgroundColor: '#a8e2a0',
+    backgroundColor: '#f9fffa',
     padding: '20px',
     height: '100%',
   },
-
+  underLine: {
+    borderBottom: '2px black solid',
+  },
+  stats: {
+    backgroundColor: '#18f960',
+    marginTop: '10px',
+    padding: '10px',
+  },
 };
 
 
@@ -54,7 +61,10 @@ export default class HomePage extends React.Component{
     return (
       <div style={styles.homePage}>
         <Introduction/>
-        <MainStatistics summaryData={this.state.summaryData}/>
+        <div style={styles.stats}>
+          <h2 style={styles.underLine}>Statistics</h2>
+          <MainStatistics summaryData={this.state.summaryData}/>
+        </div>
         <RecordedGameList gameList={this.state.gameList}/>
       </div>
 

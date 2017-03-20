@@ -3,17 +3,20 @@
     margin: 0em;
 }
 
-:global(.header) {
+body, html, :global(#Content) {
+  height: 100%;
+}
+
+:global(.Header) {
     display: flex;
     justify-content: space-between;
     list-style: none;
-    background-color: lightblue;
     align-items: flex-start;
     border-bottom: 2px solid black;
     flex-wrap: wrap-reverse;
 }
 
-:global(.header) li {
+:global(.Header) li {
     align-content: bottom;
     width: 8em;
     background-color: lightgrey;
@@ -21,35 +24,25 @@
     margin-left: .75em;
 }
 
-:global(.header) :global(.links) {
+:global(.Header) :global(.Links) {
     display: flex;
     flex-wrap: wrap;
     font-size: 20px;
 }
 
-:global(.header) li a {
+:global(.Header) li a {
     display: block;
     padding: .1em;
     text-decoration: none;
     font-family: sans-serif;
     border: 3px solid lightgrey;
     border-bottom: none;
-    color: purple;
+    color: black;
   }
 
-:global(.header) li :global(.active) {
-    background-color: yellow;
-    color: blue;
+:global(.Header) li :global(.Active) {
+    background-color: #060606;
+    color: white;
     font-weight: bolder;
     border-color: black;
-}
-
-:global(.header)>:global(.user) {
-    display: flex;
-    height: 3.5em;
-    border: 2px solid black;
-}
-
-:global(.header)>:global(.user)>:global(.user-info) {
-    height: 3.5em;
 }

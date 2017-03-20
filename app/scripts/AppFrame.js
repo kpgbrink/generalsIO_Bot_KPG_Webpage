@@ -6,30 +6,53 @@ import { IndexLink, Link} from 'react-router';
 *Includes the Header, Footer, and link to other components
 */
 
+const styles = {
+  header: {
+    backgroundColor: '#cadcf9',
+    paddingTop: '20px',
+    textAlign: 'center',
+    backgroundImage: 'url("./static/images/botLogo.png")',
+    backgroundRepeat: 'np-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: '70px 70px',
+  },
+  headerTitle: {
+    fontWeight: '10000',
+    fontFamily: 'courier',
+    textShadow: '2px 2px #0ff0ff',
+    color: 'black',
+    textOutline: 'green',
+  },
+  heightFill: {
+    height: '100%',
+  },
+  footer: {
+    backgroundColor: '#054505',
+  }
+};
+
 export default class AppFrame extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   render() {
-    console.log('rendering AppFrame')
     return (
-      <div className="app-frame">
-        <div className="header-title">
-          <h2 className="header-title-text">KPG NPB BOT</h2>
+      <div className="AppFrame" style={styles.heightFill}>
+        <div className="HeaderTitle" style={styles.header}>
+          <h1 className="HeaderTitleText" style={styles.headerTitle}>Octo Weaver</h1>
+          <ul className="Header">
+            <div className="Links">
+              <li><IndexLink to="/" activeClassName="Active">Main</IndexLink></li>
+              <li><Link to="/MoreStatistics" activeClassName="Active">Statistics</Link></li>
+            </div>
+          </ul>
         </div>
-        <ul className="header">
-          <div className="links">
-            <li><IndexLink to="/" activeClassName="active">Main</IndexLink></li>
-            <li><Link to="/MoreStatistics" activeClassName="active">Statistics</Link></li>
-          </div>
-        </ul>
-        <div className="content">
-        {this.props.children}
-      </div>
-        <div className="footer"/>
+
+        <div className="Content" style={styles.heightFill}>
+          {this.props.children}
+        </div>
       </div>
     );
   }
