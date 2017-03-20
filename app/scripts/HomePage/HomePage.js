@@ -39,9 +39,11 @@ export default class HomePage extends React.Component{
 
   componentDidMount() {
     this.loadData();
+    setInterval(this.loadData.bind(this), 10000);
   }
 
   loadData() {
+    console.log('updating data');
     $.ajax({
       url: './export.json',
       dataType: 'json'
